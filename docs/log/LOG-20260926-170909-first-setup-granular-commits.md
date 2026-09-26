@@ -58,4 +58,7 @@ Total commit baru: 75 (74 + 1 log ini), melampaui target minimal 50.
 ## Notes / Follow-ups
 
 - Commit dilakukan berurutan per area; history Linear-style (satu baris per commit message).
-- Sebelum push: jalankan `git push origin main`. Hasil push akan diverifikasi setelah commit log ini dibuat.
+- Push result: `git push origin main` sukses ke `https://github.com/kevinnazarr/wiyasa-villa.git`.
+- Verifikasi akhir setelah `git fetch`: `HEAD == origin/main` (sinkron, tanpa ahead/behind), total 76+ commit (1 commit awal `README.md` + 75 commit baru termasuk log ini), 0 file untracked.
+- Ada branch remote `origin/dependabot/github_actions/actions/checkout-7` yang muncul saat fetch — bukan bagian dari tugas ini, dibiarkan.
+
