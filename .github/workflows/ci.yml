@@ -1,0 +1,187 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend • Laravel + Pest
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: wiyasa_test
+          POSTGRES_USER: wiyasa
+          POSTGRES_PASSWORD: wiyasa_test_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U wiyasa -d wiyasa_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+
+    defaults:
+      run:
+        working-directory: apps/web
+
+    env:
+      APP_ENV: testing
+      APP_DEBUG: true
+      APP_URL: http://localhost
+      DB_CONNECTION: pgsql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_DATABASE: wiyasa_test
+      DB_USERNAME: wiyasa
+      DB_PASSWORD: wiyasa_test_password
+      REDIS_CLIENT: predis
+      REDIS_HOST: 127.0.0.1
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: null
+      CACHE_STORE: redis
+      SESSION_DRIVER: array
+      QUEUE_CONNECTION: sync
+      MAIL_MAILER: array
+      FILESYSTEM_DISK: local
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, pgsql, pdo_pgsql, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate Composer files
+        run: composer validate --strict
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Copy environment configuration
+        run: cp .env.example .env
+
+      - name: Create application key
+        run: php artisan key:generate --force
+
+      - name: Run migrations
+        run: php artisan migrate --force
+
+      - name: Run Pest
+        run: php artisan test
+
+      - name: Laravel application smoke check
+        run: php artisan about
+
+  frontend:
+    name: Frontend • Vue + TypeScript + Vite
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: apps/web
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, pgsql, pdo_pgsql, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
+          coverage: none
+          tools: composer:v2
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress --optimize-autoloader
+
+      - name: Copy environment configuration
+        run: cp .env.example .env
+
+      - name: Create application key
+        run: php artisan key:generate --force
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install JavaScript dependencies
+        working-directory: .
+        run: npm ci
+
+      - name: Run lint when configured
+        working-directory: .
+        run: npm run lint --workspace apps/web --if-present
+
+      - name: Run typecheck when configured
+        working-directory: .
+        run: npm run typecheck --workspace apps/web --if-present
+
+      - name: Build frontend
+        working-directory: .
+        run: npm run build --workspace apps/web
+
+  policy:
+    name: Project Policy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Required project files
+        run: |
+          set -euo pipefail
+
+          test -f AGENTS.md
+          test -f package.json
+          test -f package-lock.json
+          test -f apps/web/composer.json
+          test -f docs/PRD.md
+          test -f docs/ERD.md
+          test -f docs/FLOWCHART.md
+          test -f docs/ARCHITECTURE.md
+          test -d docs/log
+          test -d test
+
+      - name: Repository layout sanity check
+        run: |
+          set -euo pipefail
+
+          test -d apps/web
+          test ! -d apps/api

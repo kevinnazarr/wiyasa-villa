@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: wiyasa-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: db_wiyasa_villa
+      POSTGRES_USER: wiyasa
+      POSTGRES_PASSWORD: wiyasa_dev_password
+    ports:
+      - "55432:5432"
+    volumes:
+      - wiyasa_postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wiyasa -d db_wiyasa_villa"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: wiyasa-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      - "56379:6379"
+    volumes:
+      - wiyasa_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: wiyasa-mailpit
+    restart: unless-stopped
+    ports:
+      - "58025:1025"
+      - "58081:8025"
+
+volumes:
+  wiyasa_postgres_data:
+  wiyasa_redis_data:

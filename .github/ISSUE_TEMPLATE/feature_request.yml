@@ -1,0 +1,43 @@
+name: Feature request
+description: Usulkan feature atau improvement yang masih sesuai scope Wiyasa.
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Pastikan proposal masih sesuai scope dan business rules Wiyasa.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Masalah atau kebutuhan apa yang ingin diselesaikan?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Jelaskan solusi yang diusulkan.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Kapan feature ini dianggap selesai?
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Apakah berdampak pada database, booking concurrency, payment, security, atau architecture?
