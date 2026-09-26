@@ -89,6 +89,9 @@ jobs:
       - name: Install PHP dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
+      - name: Copy environment configuration
+        run: cp .env.example .env
+
       - name: Create application key
         run: php artisan key:generate --force
 
@@ -112,6 +115,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, pgsql, pdo_pgsql, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
+          coverage: none
+          tools: composer:v2
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress --optimize-autoloader
+
+      - name: Copy environment configuration
+        run: cp .env.example .env
+
+      - name: Create application key
+        run: php artisan key:generate --force
 
       - name: Setup Node
         uses: actions/setup-node@v7
