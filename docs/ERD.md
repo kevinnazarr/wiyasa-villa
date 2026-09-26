@@ -1,7 +1,7 @@
 # ERD — Wiyasa Villa
 
 **Document:** Entity Relationship Diagram  
-**Version:** 1.0  
+**Version:** 1.1  
 **Status:** Final Baseline  
 **Database:** PostgreSQL  
 
@@ -22,6 +22,8 @@ ERD ini mengikuti prinsip berikut:
 9. Audit log menyimpan perubahan operasional penting.
 10. Reservation creation menggunakan transaction + lock cabin.
 11. PostgreSQL dapat menambahkan exclusion constraint untuk defense-in-depth terhadap overlap.
+12. UI strings dan dynamic customer-facing content harus mendukung locale `id` dan `en`.
+13. Locale preference user dipisahkan dari translation content; translation content menggunakan table per entity agar ter-normalisasi dan dapat diperluas.
 
 ---
 
@@ -30,7 +32,9 @@ ERD ini mengikuti prinsip berikut:
 ```mermaid
 erDiagram
     USERS ||--o{ RESERVATIONS : creates
+    CABINS ||--o{ CABIN_TRANSLATIONS : translates
     CABINS ||--o{ RESERVATIONS : receives
+    FACILITIES ||--o{ FACILITY_TRANSLATIONS : translates
     RESERVATIONS ||--|{ RESERVATION_NIGHTS : contains
     RESERVATIONS ||--o{ PAYMENTS : has
     RESERVATIONS ||--o| INVOICES : produces
@@ -73,12 +77,13 @@ Menyimpan customer dan user operasional.
 | email | varchar | Nullable/unique sesuai policy |
 | phone | varchar | Required untuk booking |
 | password | varchar | Nullable jika future guest checkout diperbolehkan |
+| locale | char(2) | `id` atau `en`; default `id` |
 | is_active | boolean | Default true |
 | email_verified_at | timestamp | Nullable |
 | created_at | timestamp | |
 | updated_at | timestamp | |
 
-**Index:** `role`, `phone`, `email`.
+**Index:** `role`, `phone`, `email`, `locale`.
 
 ---
 
@@ -90,9 +95,9 @@ Inventory fisik yang dapat dibooking.
 |---|---|---|
 | id | bigint/uuid | PK |
 | code | varchar | Unique, mis. `WY-01` |
-| name | varchar | Mis. `Arunika` |
+| name | varchar | Internal/canonical name; customer-facing localization via `cabin_translations` |
 | slug | varchar | Unique |
-| description | text | |
+| description | text | Internal/admin fallback; customer-facing localization via `cabin_translations` |
 | capacity | smallint | Data-driven; baseline 7 |
 | base_occupancy | smallint | Baseline 4 |
 | status | enum | `ACTIVE`, `INACTIVE`, `MAINTENANCE` |
@@ -102,6 +107,22 @@ Inventory fisik yang dapat dibooking.
 | updated_at | timestamp | |
 
 **Index:** `status`, `slug`.
+
+### 3.2a `cabin_translations`
+
+Menyimpan konten customer-facing cabin per locale.
+
+| Column | Type | Notes |
+|---|---|---|
+| id | uuid | PK |
+| cabin_id | FK | → cabins.id |
+| locale | char(2) | `id` / `en` |
+| name | varchar | Nama cabin pada locale tersebut |
+| description | text | Deskripsi cabin pada locale tersebut |
+| created_at | timestamp | |
+| updated_at | timestamp | |
+
+**Unique:** `(cabin_id, locale)`.
 
 ---
 
@@ -119,6 +140,22 @@ Master fasilitas yang reusable.
 | is_active | boolean | |
 | created_at | timestamp | |
 | updated_at | timestamp | |
+
+### 3.3a `facility_translations`
+
+Menyimpan label/deskripsi fasilitas per locale.
+
+| Column | Type | Notes |
+|---|---|---|
+| id | uuid | PK |
+| facility_id | FK | → facilities.id |
+| locale | char(2) | `id` / `en` |
+| name | varchar | Nama fasilitas pada locale tersebut |
+| description | text | Deskripsi pada locale tersebut |
+| created_at | timestamp | |
+| updated_at | timestamp | |
+
+**Unique:** `(facility_id, locale)`.
 
 ---
 
@@ -216,6 +253,7 @@ Core inventory/booking record.
 | booking_code | varchar | Public unique identifier |
 | user_id | FK | → users.id |
 | cabin_id | FK | → cabins.id |
+| locale | char(2) | Locale snapshot `id` / `en` untuk transactional communication |
 | source | enum | `DIRECT_WEBSITE`, `ADMIN_MANUAL`, `OTHER` |
 | status | enum | `PENDING_PAYMENT`, `CONFIRMED`, `EXPIRED`, `CANCELLED`, `CHECKED_IN`, `COMPLETED` |
 | check_in_date | date | Inclusive |
@@ -590,6 +628,22 @@ Harga cabin **tidak** disimpan sebagai system setting; harga berada di pricing t
 
 ## 14. Important Relationships
 
+### User → Locale
+
+`users.locale` menyimpan preferensi bahasa user terautentikasi (`id` / `en`). Guest menggunakan session/cookie.
+
+### Cabin → Translation
+
+`cabin_translations` menyimpan nama/deskripsi customer-facing per locale.
+
+### Facility → Translation
+
+`facility_translations` menyimpan nama/deskripsi fasilitas per locale.
+
+### Reservation → Locale
+
+`reservations.locale` adalah snapshot locale pada saat reservation dibuat sehingga komunikasi/transaksi historis tetap konsisten.
+
 ### Customer → Reservation
 
 ```text
@@ -784,6 +838,9 @@ PAID
 - Webhook event harus idempotent.
 - Booking status transitions harus divalidasi di application service.
 - Business data tidak boleh tersebar sebagai magic number di frontend/backend.
+- Locale hanya boleh berasal dari whitelist aplikasi: `id`, `en`.
+- Untuk setiap cabin/facility yang tampil ke customer, translation record minimal tersedia untuk locale utama `id`; locale `en` wajib tersedia untuk baseline multi-bahasa.
+- User-facing UI text tidak boleh bergantung pada raw string yang tidak memiliki translation key.
 
 ---
 

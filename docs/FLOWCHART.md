@@ -1,10 +1,10 @@
 # FLOWCHART — Wiyasa Villa
 
 **Document:** Business & Technical Flowchart  
-**Version:** 1.0  
+**Version:** 1.1  
 **Status:** Final Baseline  
 
-Dokumen ini menggambarkan alur customer, reservation concurrency, payment, cancellation, admin manual booking, pricing/voucher, dan check-in.
+Dokumen ini menggambarkan alur customer, reservation concurrency, payment, cancellation, admin manual booking, pricing/voucher, check-in, dan locale/i18n.
 
 ---
 
@@ -12,7 +12,8 @@ Dokumen ini menggambarkan alur customer, reservation concurrency, payment, cance
 
 ```mermaid
 flowchart TD
-    A[Landing Page] --> B[Pilih Cabin]
+    A[Landing Page] --> A1[Resolve Locale: id / en]
+    A1 --> B[Pilih Cabin]
     B --> C[Pilih Check-in]
     C --> D[Pilih Check-out]
     D --> E[Masukkan Jumlah Tamu]
@@ -469,3 +470,41 @@ COMMITMENT
 ```
 
 **Tidak ada flow yang boleh melompati tahap commitment dan langsung mengubah inventory.**
+## 20. Internationalization / Locale Resolution Flow
+
+```mermaid
+flowchart TD
+    A[Request masuk] --> B{Authenticated?}
+    B -->|Yes| C[Load users.locale]
+    B -->|No| D[Load session/cookie locale]
+    C --> E{Locale valid?}
+    D --> E
+    E -->|id| F[Set application locale = id]
+    E -->|en| G[Set application locale = en]
+    E -->|Invalid / missing| H[Use default locale = id]
+
+    F --> I[Load vue-i18n dictionary + Laravel translations]
+    G --> I
+    H --> I
+    I --> J[Render localized UI / messages]
+
+    J --> K{User changes language?}
+    K -->|No| L[Continue request/session]
+    K -->|Yes, guest| M[Persist locale in session/cookie]
+    K -->|Yes, authenticated| N[Update users.locale + session/cookie]
+    M --> L
+    N --> L
+```
+
+### i18n rules
+
+- Supported locales pada baseline: `id` dan `en`.
+- Default locale: `id`. Fallback locale: `en`.
+- UI string menggunakan translation key melalui `vue-i18n`.
+- Validation/notification/server-side messages menggunakan Laravel localization.
+- Dynamic cabin/facility content menggunakan translation tables sesuai locale aktif.
+- `reservations.locale` menyimpan snapshot locale pada saat reservation dibuat.
+- Perubahan locale tidak boleh mengubah availability, pricing, payment state, atau business rules.
+
+---
+
