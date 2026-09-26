@@ -1,7 +1,7 @@
 # PRD — Project Requirements Document
 **Wiyasa Villa — Premium Private Cabin Stay in Dieng, Wonosobo**
 
-**Version:** 1.1  
+**Version:** 1.2  
 **Status:** Final Baseline  
 **Audience:** Product, Design, Frontend, Backend, QA, DevOps
 
@@ -13,13 +13,17 @@ Wiyasa Villa adalah konsep website booking untuk bisnis **private cabin stay** d
 
 Masalah utama yang ingin diselesaikan adalah kebutuhan customer untuk menemukan cabin, melihat ketersediaan tanggal menginap, menghitung harga, melakukan booking dan pembayaran secara online, lalu menerima bukti booking yang dapat digunakan saat check-in. Dari sisi operasional, sistem harus mencegah double booking walaupun beberapa customer melakukan reservasi pada cabin dan tanggal yang sama secara bersamaan.
 
-Aplikasi ini menyediakan landing page untuk pemasaran cabin, booking engine berbasis malam, availability engine yang concurrency-safe, temporary reservation/hold, pembayaran melalui Midtrans, invoice, QR check-in, serta dashboard Admin dan Super Admin. Seluruh data bisnis seperti cabin, kapasitas, fasilitas, harga, season, voucher, hold duration, jam check-in/out, minimum stay, dan cancellation policy harus bersifat **data-driven** dan dapat diubah melalui database/admin tanpa mengubah source code.
+Aplikasi ini menyediakan landing page untuk pemasaran cabin, booking engine berbasis malam, availability engine yang concurrency-safe, temporary reservation/hold, pembayaran melalui Midtrans, invoice, QR check-in, serta dashboard Admin dan Super Admin. Sistem mendukung **internationalization (i18n) untuk Bahasa Indonesia (`id`) dan English (`en`)** pada public website, customer area, dan admin area. Seluruh data bisnis seperti cabin, kapasitas, fasilitas, harga, season, voucher, hold duration, jam check-in/out, minimum stay, cancellation policy, dan konten dinamis yang memang perlu diterjemahkan harus bersifat **data-driven** dan dapat diubah melalui database/admin tanpa mengubah source code.
 
 ---
 
 ## 2. Requirements
 
-- Aplikasi berbentuk web full-stack untuk pemasaran, booking, pembayaran, invoice, dan verifikasi check-in.
+- Aplikasi berbentuk web full-stack untuk pemasaran, booking, pembayaran, invoice, verifikasi check-in, dan multi-bahasa.
+- Sistem mendukung locale `id` dan `en` sebagai bahasa aplikasi baseline.
+- Customer/visitor dapat mengganti bahasa melalui language switcher tanpa mengubah URL bisnis utama.
+- Preferensi bahasa disimpan pada session/cookie untuk guest dan pada `users.locale` untuk user yang sudah terautentikasi.
+- Backend, validation message, notification/email, dan UI harus menggunakan locale-aware translation; user-facing string tidak boleh di-hardcode di component/page.
 - Customer dapat melihat daftar cabin, detail cabin, fasilitas, kapasitas, foto, harga, dan availability.
 - Booking menggunakan model **per malam** dengan `check_in` dan `check_out`, bukan booking per jam.
 - Sistem harus melakukan availability check berdasarkan cabin dan rentang tanggal.
@@ -64,6 +68,10 @@ Nilai tersebut dapat berubah melalui database/admin tanpa deployment ulang.
 
 ### Fase 1 — Public Website & Cabin Catalog
 
+- **Internationalization / Language Switcher** — menyediakan pilihan bahasa `ID` dan `EN`.
+  - Locale detection berdasarkan preferensi user/session dan fallback aplikasi.
+  - UI strings menggunakan translation key.
+  - Konten dinamis cabin/facility yang ditampilkan ke customer memakai translation record sesuai locale.
 - **Landing Page** — memperkenalkan Wiyasa Villa dan value proposition private cabin di Dieng.
   - Hero section — menampilkan identitas Wiyasa dan call-to-action booking.
   - Cabin showcase — menampilkan cabin yang aktif.
@@ -146,6 +154,8 @@ Nilai tersebut dapat berubah melalui database/admin tanpa deployment ulang.
 ### Fase 4 — Super Admin, Configuration & System Control
 
 - **Cabin Management** — CRUD cabin, kapasitas, deskripsi, media, fasilitas, status aktif/nonaktif.
+  - Menyediakan field terjemahan Bahasa Indonesia dan English untuk konten customer-facing seperti nama dan deskripsi cabin.
+  - Menyediakan field terjemahan Bahasa Indonesia dan English untuk fasilitas yang ditampilkan ke customer.
 - **Pricing & Season Management** — mengelola rate calendar, pricing period, weekend/weekday, peak/special period, minimum stay, dan cabin override.
 - **Voucher Management** — membuat dan mengubah voucher serta quota.
 - **Policy Management** — cancellation/refund policy, booking policy, hold duration, check-in/out policy, dan aturan operasional.
@@ -160,21 +170,23 @@ Nilai tersebut dapat berubah melalui database/admin tanpa deployment ulang.
 ### 4.1 Customer Booking Flow
 
 1. **Customer** membuka landing page Wiyasa Villa.
-2. **Customer** melihat cabin, fasilitas, kapasitas, dan informasi harga.
-3. **Customer** memilih cabin → check-in → check-out → jumlah tamu.
-4. **Sistem** menjalankan availability check dan validasi minimum stay/capacity.
-5. Jika tersedia, **sistem** menghitung nightly quote berdasarkan pricing period yang berlaku.
-6. **Customer** memasukkan voucher jika memiliki voucher.
-7. **Customer** mengisi data booking dan melihat review order.
-8. **Customer** menekan `Continue to Payment`.
-9. **Backend** membuka transaction, mengunci cabin, memeriksa ulang availability, menghitung final quote, mereserve voucher bila diperlukan, lalu membuat `PENDING_PAYMENT`.
-10. **Backend** membuat payment transaction Midtrans.
-11. **Customer** menyelesaikan pembayaran.
-12. **Midtrans** mengirim webhook/notification ke backend.
-13. **Backend** memverifikasi notification, melakukan idempotency check, mengunci resource yang diperlukan, dan melakukan final validation.
-14. Jika valid dan hold masih aktif, reservation menjadi `CONFIRMED`.
-15. **Sistem** menghasilkan invoice dan QR check-in token.
-16. **Customer** melihat bukti booking.
+2. **Sistem** menentukan locale dari user/session/cookie dan menampilkan UI dalam `id` atau `en`.
+3. **Customer** dapat mengganti bahasa melalui language switcher.
+4. **Customer** melihat cabin, fasilitas, kapasitas, dan informasi harga dalam locale aktif.
+5. **Customer** memilih cabin → check-in → check-out → jumlah tamu.
+6. **Sistem** menjalankan availability check dan validasi minimum stay/capacity.
+7. Jika tersedia, **sistem** menghitung nightly quote berdasarkan pricing period yang berlaku.
+8. **Customer** memasukkan voucher jika memiliki voucher.
+9. **Customer** mengisi data booking dan melihat review order.
+10. **Customer** menekan `Continue to Payment`.
+11. **Backend** membuka transaction, mengunci cabin, memeriksa ulang availability, menghitung final quote, mereserve voucher bila diperlukan, lalu membuat `PENDING_PAYMENT`.
+12. **Backend** membuat payment transaction Midtrans.
+13. **Customer** menyelesaikan pembayaran.
+14. **Midtrans** mengirim webhook/notification ke backend.
+15. **Backend** memverifikasi notification, melakukan idempotency check, mengunci resource yang diperlukan, dan melakukan final validation.
+16. Jika valid dan hold masih aktif, reservation menjadi `CONFIRMED`.
+17. **Sistem** menghasilkan invoice dan QR check-in token.
+18. **Customer** melihat bukti booking.
 
 ### 4.2 Concurrent Booking Flow
 
@@ -297,6 +309,7 @@ Detail ERD lengkap berada pada dokumen `ERD.md`. Bagian ini memberikan ringkasan
 | email | VARCHAR | Email |
 | phone | VARCHAR | Nomor kontak |
 | password | VARCHAR | Password hash jika menggunakan password auth |
+| locale | CHAR(2) | Preferensi bahasa user: `id` / `en` |
 | is_active | BOOLEAN | Status akses user |
 | email_verified_at | TIMESTAMP | Verifikasi email |
 | created_at | TIMESTAMP | Waktu dibuat |
@@ -330,6 +343,7 @@ Detail ERD lengkap berada pada dokumen `ERD.md`. Bagian ini memberikan ringkasan
 
 | Kolom | Tipe | Kegunaan |
 |---|---|---|
+| locale | CHAR(2) | Snapshot bahasa untuk komunikasi/transaksi reservation |
 | id | UUID | Identitas reservation |
 | user_id | UUID | Customer pemilik reservation |
 | cabin_id | UUID | Cabin yang dipesan |
@@ -449,7 +463,8 @@ erDiagram
 
 ## 7. Tech Stack
 
-- **Frontend:** Vue 3, TypeScript, Inertia.js, Vite, Tailwind CSS, Pinia, TanStack Vue Query
+- **Frontend:** Vue 3, TypeScript, Inertia.js, Vite, Tailwind CSS, Pinia, TanStack Vue Query, `vue-i18n`
+- **Internationalization:** `vue-i18n` untuk UI frontend + Laravel localization (`lang/id`, `lang/en`) untuk validation, notification, dan server-side user-facing messages
 - **Backend:** Laravel 13, PHP 8.x, Inertia server adapter, Eloquent, Form Requests, Policies, Actions/Services
 - **Database:** PostgreSQL
 - **ORM:** Eloquent ORM
@@ -475,6 +490,7 @@ erDiagram
 - **Scalability:** baseline ditujukan untuk 10 cabin tetapi data model harus dapat berkembang menjadi lebih banyak unit tanpa perubahan business logic inti.
 - **Availability:** background scheduler/job membantu cleanup dan processing tetapi correctness availability tidak boleh bergantung pada scheduler tepat waktu.
 - **Accessibility:** UI mengikuti praktik aksesibilitas web yang wajar, keyboard navigation pada komponen interaktif utama, label form yang jelas, kontras memadai, dan feedback error yang dapat dipahami.
+- **Internationalization:** seluruh user-facing string harus memiliki translation key untuk `id` dan `en`; missing translation mengikuti fallback locale `en`. Konten customer-facing yang disimpan di database harus memiliki translation record untuk locale yang didukung.
 - **Responsive:** public website dan operational dashboard harus nyaman digunakan pada desktop maupun mobile.
 - **Observability:** error, webhook processing, queue job, dan perubahan operasional penting perlu dapat dilacak melalui log/audit trail.
 - **Offline support:** Tidak untuk baseline; sistem booking dan check-in membutuhkan koneksi ke server.
@@ -488,6 +504,7 @@ erDiagram
 - **Hold Reliability:** expired hold tidak lagi memblokir availability walaupun cleanup job terlambat.
 - **Operational Adoption:** Admin dapat membuat manual booking tanpa bypass availability engine.
 - **Configuration Flexibility:** perubahan cabin, harga, fasilitas, season, voucher, atau policy tidak membutuhkan perubahan source code/deployment.
+- **Localization Coverage:** public/customer/admin UI baseline tersedia dalam `id` dan `en`, dan konten cabin/facility customer-facing memiliki translation data untuk kedua locale.
 - **Booking Completion:** customer dapat menyelesaikan flow dari availability → hold → payment → confirmed → invoice/QR tanpa intervensi manual pada kasus normal.
 - **Check-in Integrity:** QR token invalid, expired, cancelled, atau sudah digunakan tidak dapat menghasilkan check-in baru.
 
@@ -564,3 +581,7 @@ Never auto-confirm
 ### Data-Driven Principle
 
 Cabin count, capacity, facilities, rates, seasons, voucher rules, hold duration, check-in/out, minimum stay, extra guest fee, dan cancellation policy harus berasal dari database/configuration layer. Business rules yang sudah menjadi bagian dari state machine atau authorization dapat tetap direpresentasikan sebagai enum/constant pada application code.
+
+### Internationalization Principle
+
+Locale aplikasi baseline adalah `id` dan `en`. UI text disimpan sebagai translation key; konten dinamis customer-facing disimpan pada translation tables; locale user disimpan pada `users.locale`, sedangkan `reservations.locale` menyimpan snapshot locale pada saat reservation dibuat. Fallback aplikasi mengikuti konfigurasi locale (`id` sebagai default dan `en` sebagai fallback baseline).

@@ -1,5 +1,8 @@
 # Wiyasa Villa — Architecture Document
 
+**Version:** 1.1  
+**Status:** Final Baseline + i18n Update  
+
 ## 1. Purpose
 
 Dokumen ini menjadi acuan arsitektur teknis Wiyasa Villa setelah PRD, ERD, dan FLOWCHART disepakati.
@@ -48,6 +51,10 @@ Contoh:
 - check-in/out policy.
 
 Perubahan data tersebut harus dapat dilakukan melalui database/admin tanpa deployment ulang.
+
+### 2.2.1 Internationalization / i18n
+
+Sistem mendukung locale `id` dan `en`. Locale hanya mempengaruhi presentation/communication layer dan tidak boleh mengubah availability, pricing, voucher eligibility, payment state, reservation state, atau inventory locking.
 
 ### 2.3 Backend Owns Business Rules
 
@@ -113,8 +120,10 @@ flowchart TB
         Actions[Application Actions]
         Domain[Domain / Business Logic]
         Policies[Policies / Authorization]
+        Locale[Locale Middleware / Session / Cookie]
         Inertia[Inertia.js]
         Vue[Vue 3 + TypeScript]
+        VueI18n[vue-i18n]
         Jobs[Queue Jobs]
     end
 
@@ -127,7 +136,8 @@ flowchart TB
     Scheduler[Laravel Scheduler]
 
     Browser --> Routes
-    Routes --> Controllers
+    Routes --> Locale
+    Locale --> Controllers
     Controllers --> Requests
     Controllers --> Actions
     Actions --> Domain
@@ -139,6 +149,7 @@ flowchart TB
 
     Controllers --> Inertia
     Inertia --> Vue
+    Vue --> VueI18n
 
     Jobs --> Redis
     Horizon --> Redis
@@ -209,6 +220,9 @@ wiyasa-villa/
 │       ├── config/
 │       ├── database/
 │       ├── public/
+│       ├── lang/
+│       │   ├── id/
+│       │   └── en/
 │       ├── resources/
 │       │   ├── css/
 │       │   └── js/
@@ -218,6 +232,11 @@ wiyasa-villa/
 │       │       ├── Composables/
 │       │       ├── Stores/
 │       │       ├── Types/
+│       │       ├── i18n/
+│       │       │   ├── index.ts
+│       │       │   └── locales/
+│       │       │       ├── id.ts
+│       │       │       └── en.ts
 │       │       └── app.ts
 │       ├── routes/
 │       ├── storage/
@@ -270,6 +289,39 @@ Monorepo tidak berarti harus banyak application. Saat ini satu `apps/web` sudah 
 - shadcn-vue / Reka UI
 - Pinia
 - TanStack Vue Query
+- vue-i18n
+
+### Internationalization (i18n)
+
+Frontend localization menggunakan `vue-i18n` untuk semua user-facing UI string yang berasal dari Vue/Inertia. Translation dictionary disimpan di:
+
+```text
+resources/js/i18n/
+├── index.ts
+└── locales/
+    ├── id.ts
+    └── en.ts
+```
+
+Laravel localization pada `lang/id` dan `lang/en` digunakan untuk validation message, auth message, notification, dan server-side user-facing text. Dynamic content seperti nama/deskripsi cabin dan facility tidak disimpan sebagai translation key frontend; data tersebut diambil dari `cabin_translations` dan `facility_translations`.
+
+### Locale Resolution
+
+Authenticated user:
+
+```text
+users.locale
+    ↓
+session/cookie
+    ↓
+application default locale = id
+```
+
+Guest menggunakan session/cookie. Language switcher memperbarui session/cookie dan authenticated user juga memperbarui `users.locale`. Missing frontend translation fallback ke `en`.
+
+### Localization Boundary
+
+Locale tidak boleh mempengaruhi: availability, pricing, voucher eligibility, payment state, reservation state, dan inventory locking.
 
 ### Inertia
 
@@ -333,7 +385,8 @@ PostgreSQL / Redis / External Services
 
 ### Controllers
 
-Controller harus tipis:
+Controller harus tipis. Locale sudah ditentukan pada boundary/middleware sebelum use case dijalankan.
+
 - menerima request;
 - authorize;
 - invoke action;
@@ -694,6 +747,8 @@ Super Admin tambahan:
 
 ```text
 Cabin configuration
+Cabin translations (ID / EN)
+Facility translations (ID / EN)
 Pricing
 Rate calendar
 Season
@@ -911,6 +966,14 @@ Testing layer:
 - Midtrans boundary;
 - R2 boundary.
 
+### Internationalization
+- translation key coverage untuk `id` dan `en`;
+- locale switching guest;
+- locale persistence authenticated user;
+- fallback ketika translation key missing;
+- localized validation/notification response;
+- dynamic cabin/facility translation retrieval.
+
 ### Concurrency
 Wajib mencakup:
 
@@ -1027,5 +1090,8 @@ Arsitektur foundation dianggap siap apabila:
 - PRD, ERD, FLOWCHART, dan ARCHITECTURE konsisten;
 - reservation memakai transaction + locking;
 - business configuration tidak hardcoded;
+- i18n `id`/`en` tersedia pada public, customer, dan admin UI baseline;
+- dynamic cabin/facility translations tersedia melalui database;
+- locale preference dan reservation locale snapshot tersedia;
 - concurrency test strategy tersedia;
 - `AGENTS.md` menjadi development gate.
