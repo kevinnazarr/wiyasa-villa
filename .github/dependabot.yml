@@ -1,29 +1,79 @@
 version: 2
 
 updates:
-  - package-ecosystem: npm
+  - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: weekly
-    open-pull-requests-limit: 10
-    labels:
-      - dependencies
-      - javascript
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+      timezone: "Asia/Jakarta"
 
-  - package-ecosystem: composer
+    open-pull-requests-limit: 2
+
+    groups:
+      npm-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+        patterns:
+          - "*"
+
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+
+    labels:
+      - "dependencies"
+      - "javascript"
+
+  - package-ecosystem: "composer"
     directory: "/apps/web"
     schedule:
-      interval: weekly
-    open-pull-requests-limit: 10
-    labels:
-      - dependencies
-      - php
+      interval: "weekly"
+      day: "monday"
+      time: "03:15"
+      timezone: "Asia/Jakarta"
 
-  - package-ecosystem: github-actions
+    open-pull-requests-limit: 2
+
+    groups:
+      composer-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+        patterns:
+          - "*"
+
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+
+    labels:
+      - "dependencies"
+      - "php"
+      - "laravel"
+
+  - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: weekly
-    open-pull-requests-limit: 10
+      interval: "weekly"
+      day: "monday"
+      time: "03:30"
+      timezone: "Asia/Jakarta"
+
+    open-pull-requests-limit: 2
+
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
+
     labels:
-      - dependencies
-      - github-actions
+      - "dependencies"
+      - "github-actions"
