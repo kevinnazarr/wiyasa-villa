@@ -1,0 +1,39 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+**/node_modules/
+vendor/
+**/vendor/
+
+# Laravel
+storage/*.key
+apps/web/storage/framework/cache/*
+apps/web/storage/framework/sessions/*
+apps/web/storage/framework/views/*
+apps/web/storage/logs/*
+apps/web/public/build/
+
+# Testing / coverage
+coverage/
+.phpunit.result.cache
+.phpunit.cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Logs
+*.log
+
+# Docker local state
+*.pid
