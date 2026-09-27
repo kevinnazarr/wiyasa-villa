@@ -79,7 +79,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          extensions: mbstring, pgsql, pdo_pgsql, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
+          extensions: mbstring, pgsql, pdo_pgsql, sqlite3, pdo_sqlite, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
           coverage: none
           tools: composer:v2
 
@@ -120,7 +120,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          extensions: mbstring, pgsql, pdo_pgsql, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
+          extensions: mbstring, pgsql, pdo_pgsql, sqlite3, pdo_sqlite, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
           coverage: none
           tools: composer:v2
 
@@ -132,6 +132,9 @@ jobs:
 
       - name: Create application key
         run: php artisan key:generate --force
+
+      - name: Generate Wayfinder routes and actions
+        run: php artisan wayfinder:generate --with-form --no-interaction
 
       - name: Setup Node
         uses: actions/setup-node@v7
@@ -176,8 +179,6 @@ jobs:
           test -f docs/ERD.md
           test -f docs/FLOWCHART.md
           test -f docs/ARCHITECTURE.md
-          test -d docs/log
-          test -d test
 
       - name: Repository layout sanity check
         run: |

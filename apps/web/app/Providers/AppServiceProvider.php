@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\SetLocale;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -23,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        URL::defaults(['locale' => SetLocale::DEFAULT_LOCALE]);
+
         $this->configureDefaults();
     }
 
