@@ -133,6 +133,9 @@ jobs:
       - name: Create application key
         run: php artisan key:generate --force
 
+      - name: Generate Wayfinder routes and actions
+        run: php artisan wayfinder:generate --with-form --no-interaction
+
       - name: Setup Node
         uses: actions/setup-node@v7
         with:
