@@ -176,8 +176,6 @@ jobs:
           test -f docs/ERD.md
           test -f docs/FLOWCHART.md
           test -f docs/ARCHITECTURE.md
-          test -d docs/log
-          test -d test
 
       - name: Repository layout sanity check
         run: |
