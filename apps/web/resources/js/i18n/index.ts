@@ -9,7 +9,9 @@ export const DEFAULT_LOCALE: SupportedLocale = 'id';
 export const FALLBACK_LOCALE: SupportedLocale = 'en';
 
 type DeepStringRecord<T> = {
-    [K in keyof T]: T[K] extends Record<string, unknown> ? DeepStringRecord<T[K]> : string;
+    [K in keyof T]: T[K] extends Record<string, unknown>
+        ? DeepStringRecord<T[K]>
+        : string;
 };
 
 export type MessageSchema = DeepStringRecord<typeof id>;
@@ -27,7 +29,11 @@ export const i18n = createI18n<[MessageSchema], SupportedLocale>({
 export function setLocale(locale: string): void {
     if (isSupportedLocale(locale)) {
         const globalLocale = i18n.global.locale as unknown;
-        if (typeof globalLocale === 'object' && globalLocale !== null && 'value' in globalLocale) {
+        if (
+            typeof globalLocale === 'object' &&
+            globalLocale !== null &&
+            'value' in globalLocale
+        ) {
             (globalLocale as { value: SupportedLocale }).value = locale;
         } else {
             (i18n.global.locale as unknown as SupportedLocale) = locale;
@@ -36,7 +42,10 @@ export function setLocale(locale: string): void {
 }
 
 export function isSupportedLocale(locale: unknown): locale is SupportedLocale {
-    return typeof locale === 'string' && SUPPORTED_LOCALES.includes(locale as SupportedLocale);
+    return (
+        typeof locale === 'string' &&
+        SUPPORTED_LOCALES.includes(locale as SupportedLocale)
+    );
 }
 
 export default i18n;

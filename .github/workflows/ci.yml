@@ -79,7 +79,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          extensions: mbstring, pgsql, pdo_pgsql, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
+          extensions: mbstring, pgsql, pdo_pgsql, sqlite3, pdo_sqlite, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
           coverage: none
           tools: composer:v2
 
@@ -120,7 +120,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          extensions: mbstring, pgsql, pdo_pgsql, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
+          extensions: mbstring, pgsql, pdo_pgsql, sqlite3, pdo_sqlite, curl, dom, fileinfo, openssl, tokenizer, xml, zip, iconv
           coverage: none
           tools: composer:v2
 
