@@ -10,13 +10,3 @@ export type CabinSummary = {
 };
 
 export type CabinDetail = CabinSummary;
-
-export type ReservationSummary = {
-    code: string;
-    status?: string | null;
-};
-
-export type BookingSummary = {
-    code: string;
-    status?: string | null;
-};
