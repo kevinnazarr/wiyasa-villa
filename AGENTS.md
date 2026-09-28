@@ -475,6 +475,12 @@ The log should be factual and concise. Do not invent successful verification.
 
 Use the project's configured **Obsidian Vault** as persistent project memory when the relevant integration/tool is available.
 
+> **Main Folder Integration Rule:**
+> All Obsidian memory notes and updates must be synchronized and linked directly to the main project folder located at:
+> ```text
+> /home/kevinnazar/Obsidian/Wiyasa-Villa/
+> ```
+
 The Vault should capture durable project knowledge such as:
 
 - architecture decisions
@@ -493,7 +499,7 @@ Do not store secrets, passwords, tokens, API keys, or sensitive credentials in t
 
 If a task creates durable knowledge that is useful to future work:
 
-1. Update the relevant Vault note.
+1. Update the relevant Vault note inside `/home/kevinnazar/Obsidian/Wiyasa-Villa/`.
 2. Reference the update in `docs/log/LOG-{ID}.md`.
 
 If the Vault integration is unavailable, do not pretend it was updated. Record:
