@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-
-type ReservationSummary = {
-    code: string;
-    status?: string | null;
-};
+import type { ReservationSummary } from '@/types';
 
 defineProps<{
+    code?: string | null;
     reservation?: ReservationSummary | null;
 }>();
 </script>
@@ -19,7 +16,7 @@ defineProps<{
             {{ $t('public.booking.confirmationTitle') }}
         </h1>
         <p v-if="!reservation" class="mt-4 text-body-sm text-body">
-            {{ $t('public.booking.confirmationEmpty') }}
+            {{ code ? `${code}` : $t('public.booking.confirmationEmpty') }}
         </p>
         <div
             v-else

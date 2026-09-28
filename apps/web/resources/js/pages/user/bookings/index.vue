@@ -2,7 +2,10 @@
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { isSupportedLocale } from '@/i18n';
-import { show as bookingsShow } from '@/routes/bookings';
+import {
+    index as bookingsIndex,
+    show as bookingsShow,
+} from '@/routes/bookings';
 import { dashboard } from '@/routes';
 import type { BookingSummary } from '@/types';
 
@@ -13,9 +16,7 @@ const locale = computed(() =>
 );
 
 defineProps<{
-    user?: { name: string; email: string } | null;
-    upcomingBookings?: BookingSummary[];
-    recentBookings?: BookingSummary[];
+    bookings?: BookingSummary[];
 }>();
 
 defineOptions({
@@ -25,26 +26,29 @@ defineOptions({
                 title: 'Dashboard',
                 href: dashboard({ locale: 'id' }),
             },
+            {
+                title: 'Bookings',
+                href: bookingsIndex({ locale: 'id' }),
+            },
         ],
     },
 });
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head title="Bookings" />
 
-    <div
-        class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
-    >
+    <main class="mx-auto max-w-7xl px-4 py-12">
+        <h1 class="font-display text-display-sm">Bookings</h1>
         <p
-            v-if="!upcomingBookings || upcomingBookings.length === 0"
-            class="text-body-sm text-body"
+            v-if="!bookings || bookings.length === 0"
+            class="mt-4 text-body-sm text-body"
         >
             {{ $t('public.booking.confirmationEmpty') }}
         </p>
-        <ul v-else class="grid gap-4 md:grid-cols-3">
+        <ul v-else class="mt-6 grid gap-4 md:grid-cols-3">
             <li
-                v-for="booking in upcomingBookings"
+                v-for="booking in bookings"
                 :key="booking.code"
                 class="rounded-lg border border-hairline bg-surface-card p-4"
             >
@@ -56,5 +60,5 @@ defineOptions({
                 </Link>
             </li>
         </ul>
-    </div>
+    </main>
 </template>

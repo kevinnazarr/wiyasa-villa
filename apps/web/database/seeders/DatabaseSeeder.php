@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => bcrypt('admin123'),
         ]);
+
+        $this->call(CabinSeeder::class);
     }
 }

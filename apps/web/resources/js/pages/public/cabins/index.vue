@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { isSupportedLocale } from '@/i18n';
+import { index as bookingIndex } from '@/routes/booking';
+import { show as cabinsShow } from '@/routes/cabins';
+import type { CabinSummary } from '@/types';
 
-type CabinSummary = {
-    id: number | string;
-    name: string;
-};
+const page = usePage();
+
+const locale = computed(() =>
+    isSupportedLocale(page.props.locale) ? page.props.locale : 'id',
+);
 
 defineProps<{
-    cabins?: CabinSummary[];
+    cabins?: CabinSummary[] | null;
 }>();
 </script>
 
@@ -30,8 +36,21 @@ defineProps<{
                 :key="cabin.id"
                 class="rounded-lg border border-hairline bg-surface-card p-4"
             >
-                {{ cabin.name }}
+                <Link
+                    :href="cabinsShow({ locale, cabin: cabin.slug })"
+                    class="font-medium text-primary hover:underline"
+                >
+                    {{ cabin.name }}
+                </Link>
             </li>
         </ul>
+        <p class="mt-8">
+            <Link
+                :href="bookingIndex({ locale })"
+                class="inline-flex h-12 items-center rounded-sm bg-primary px-6 text-button-md text-on-primary transition-colors hover:bg-primary-active"
+            >
+                {{ $t('common.bookNow') }}
+            </Link>
+        </p>
     </main>
 </template>
