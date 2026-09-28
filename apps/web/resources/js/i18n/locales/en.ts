@@ -41,4 +41,37 @@ export default {
             completed: 'Completed',
         },
     },
+    public: {
+        home: {
+            title: 'Home',
+            heading: 'Serene Stays in Dieng',
+            empty: 'Home content is not available yet.',
+        },
+        cabins: {
+            title: 'Cabins',
+            heading: 'Choose Your Cabin',
+            empty: 'No cabins available yet.',
+            detailEmpty: 'Cabin details are not available yet.',
+        },
+        booking: {
+            title: 'Booking',
+            heading: 'Make a Booking',
+            empty: 'The booking form is not available yet.',
+            confirmationTitle: 'Booking Confirmation',
+            confirmationEmpty: 'Confirmation details are not available yet.',
+        },
+        about: {
+            title: 'About',
+            heading: 'About Wiyasa Villa',
+            empty: 'About information is not available yet.',
+        },
+        contact: {
+            title: 'Contact',
+            heading: 'Contact Us',
+            empty: 'Contact information is not available yet.',
+        },
+        footer: {
+            rights: 'All rights reserved.',
+        },
+    },
 } as const;

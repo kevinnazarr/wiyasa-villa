@@ -33,7 +33,7 @@ void createInertiaApp({
     },
     layout: (name) => {
         switch (true) {
-            case name === 'public/home/index':
+            case name.startsWith('public/'):
                 return PublicAreaLayout;
             case name.startsWith('auth/'):
                 return AuthLayout;
