@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/id');
 
 Route::prefix('{locale?}')->whereIn('locale', ['id', 'en'])->group(function () {
-    Route::inertia('/', 'Welcome')->name('home');
+    Route::inertia('/', 'public/home/index')->name('home');
 
     Route::middleware(['auth', 'verified'])->group(function () {
-        Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+        Route::inertia('dashboard', 'user/dashboard/index')->name('dashboard');
     });
 
     require __DIR__.'/settings.php';

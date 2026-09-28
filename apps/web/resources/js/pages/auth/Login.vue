@@ -30,7 +30,7 @@ defineProps<{
 
     <div
         v-if="status"
-        class="mb-4 text-center text-sm font-medium text-green-600"
+        class="mb-4 text-sm font-medium text-green-600 text-center"
     >
         {{ status }}
     </div>
@@ -39,10 +39,10 @@ defineProps<{
         v-bind="store.form()"
         :reset-on-success="['password']"
         v-slot="{ errors, processing }"
-        class="flex flex-col gap-6"
+        class="gap-6 flex flex-col"
     >
-        <div class="grid gap-6">
-            <div class="grid gap-2">
+        <div class="gap-6 grid">
+            <div class="gap-2 grid">
                 <Label for="email">Email address</Label>
                 <Input
                     id="email"
@@ -57,7 +57,7 @@ defineProps<{
                 <InputError :message="errors.email" />
             </div>
 
-            <div class="grid gap-2">
+            <div class="gap-2 grid">
                 <div class="flex items-center justify-between">
                     <Label for="password">Password</Label>
                     <TextLink
@@ -81,7 +81,7 @@ defineProps<{
             </div>
 
             <div class="flex items-center justify-between">
-                <Label for="remember" class="flex items-center space-x-3">
+                <Label for="remember" class="space-x-3 flex items-center">
                     <Checkbox id="remember" name="remember" :tabindex="3" />
                     <span>Remember me</span>
                 </Label>
@@ -99,7 +99,7 @@ defineProps<{
             </Button>
         </div>
 
-        <div class="text-center text-sm text-muted-foreground">
+        <div class="text-sm text-muted-foreground text-center">
             Don't have an account?
             <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
         </div>

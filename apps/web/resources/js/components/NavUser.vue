@@ -32,11 +32,11 @@ const { isMobile, state } = useSidebar();
                         data-test="sidebar-menu-button"
                     >
                         <UserInfo :user="user" />
-                        <ChevronsUpDown class="ml-auto size-4" />
+                        <ChevronsUpDown class="size-4 ml-auto" />
                     </SidebarMenuButton>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                    class="w-(--reka-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                    class="min-w-56 rounded-lg w-(--reka-dropdown-menu-trigger-width)"
                     :side="
                         isMobile
                             ? 'bottom'

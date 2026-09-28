@@ -26,14 +26,14 @@ defineProps<{
 
     <div
         v-if="status"
-        class="mb-4 text-center text-sm font-medium text-green-600"
+        class="mb-4 text-sm font-medium text-green-600 text-center"
     >
         {{ status }}
     </div>
 
     <div class="space-y-6">
         <Form v-bind="email.form()" v-slot="{ errors, processing }">
-            <div class="grid gap-2">
+            <div class="gap-2 grid">
                 <Label for="email">Email address</Label>
                 <Input
                     id="email"
@@ -58,7 +58,7 @@ defineProps<{
             </div>
         </Form>
 
-        <div class="space-x-1 text-center text-sm text-muted-foreground">
+        <div class="space-x-1 text-sm text-muted-foreground text-center">
             <span>Or, return to</span>
             <TextLink :href="login()">log in</TextLink>
         </div>

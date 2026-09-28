@@ -14,7 +14,7 @@ test('id locale route is accessible and sets locale to id', function () {
     $response->assertOk();
     expect(app()->getLocale())->toBe('id');
     $response->assertInertia(fn ($page) => $page
-        ->component('Welcome')
+        ->component('public/home/index')
         ->where('locale', 'id')
     );
 });
@@ -25,7 +25,7 @@ test('en locale route is accessible and sets locale to en', function () {
     $response->assertOk();
     expect(app()->getLocale())->toBe('en');
     $response->assertInertia(fn ($page) => $page
-        ->component('Welcome')
+        ->component('public/home/index')
         ->where('locale', 'en')
     );
 });
@@ -50,7 +50,7 @@ test('authenticated routes respect locale prefix', function () {
     $response->assertOk();
     expect(app()->getLocale())->toBe('en');
     $response->assertInertia(fn ($page) => $page
-        ->component('Dashboard')
+        ->component('user/dashboard/index')
         ->where('locale', 'en')
     );
 });

@@ -25,7 +25,7 @@ defineOptions({
         v-slot="{ errors, processing }"
     >
         <div class="space-y-6">
-            <div class="grid gap-2">
+            <div class="gap-2 grid">
                 <Label htmlFor="password">Password</Label>
                 <PasswordInput
                     id="password"
