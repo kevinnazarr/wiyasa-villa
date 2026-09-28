@@ -24,7 +24,7 @@ defineProps<{
 
     <div
         v-if="status === 'verification-link-sent'"
-        class="mb-4 text-sm font-medium text-green-600 text-center"
+        class="mb-4 text-center text-sm font-medium text-green-600"
     >
         A new verification link has been sent to the email address you provided
         during registration.
@@ -40,7 +40,7 @@ defineProps<{
             Resend verification email
         </Button>
 
-        <TextLink :href="logout()" as="button" class="text-sm mx-auto block">
+        <TextLink :href="logout()" as="button" class="mx-auto block text-sm">
             Log out
         </TextLink>
     </Form>

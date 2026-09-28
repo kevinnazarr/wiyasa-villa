@@ -56,7 +56,7 @@ defineOptions({
             class="space-y-6"
             v-slot="{ errors, processing }"
         >
-            <div class="gap-2 grid">
+            <div class="grid gap-2">
                 <Label for="current_password">Current password</Label>
                 <PasswordInput
                     id="current_password"
@@ -68,7 +68,7 @@ defineOptions({
                 <InputError :message="errors.current_password" />
             </div>
 
-            <div class="gap-2 grid">
+            <div class="grid gap-2">
                 <Label for="password">New password</Label>
                 <PasswordInput
                     id="password"
@@ -81,7 +81,7 @@ defineOptions({
                 <InputError :message="errors.password" />
             </div>
 
-            <div class="gap-2 grid">
+            <div class="grid gap-2">
                 <Label for="password_confirmation">Confirm password</Label>
                 <PasswordInput
                     id="password_confirmation"
@@ -94,7 +94,7 @@ defineOptions({
                 <InputError :message="errors.password_confirmation" />
             </div>
 
-            <div class="gap-4 flex items-center">
+            <div class="flex items-center gap-4">
                 <Button
                     :disabled="processing"
                     data-test="update-password-button"

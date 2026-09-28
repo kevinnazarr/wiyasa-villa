@@ -41,7 +41,7 @@ onMounted(async () => {
 <template>
     <Card class="w-full">
         <CardHeader>
-            <CardTitle class="gap-3 flex">
+            <CardTitle class="flex gap-3">
                 <LockKeyhole class="size-4" />2FA recovery codes
             </CardTitle>
             <CardDescription>
@@ -51,7 +51,7 @@ onMounted(async () => {
         </CardHeader>
         <CardContent>
             <div
-                class="gap-3 sm:flex-row sm:items-center sm:justify-between flex flex-col select-none"
+                class="flex flex-col gap-3 select-none sm:flex-row sm:items-center sm:justify-between"
             >
                 <Button @click="toggleRecoveryCodesVisibility" class="w-fit">
                     <component
@@ -93,7 +93,7 @@ onMounted(async () => {
                 <div v-else class="mt-3 space-y-3">
                     <div
                         ref="recoveryCodeSectionRef"
-                        class="gap-1 rounded-lg bg-muted p-4 font-mono text-sm grid"
+                        class="grid gap-1 rounded-lg bg-muted p-4 font-mono text-sm"
                     >
                         <div v-if="!recoveryCodesList.length" class="space-y-2">
                             <div

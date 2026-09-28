@@ -3,7 +3,7 @@ import { Toaster } from '@/components/ui/sonner';
 </script>
 
 <template>
-    <div class="bg-background text-foreground min-h-svh">
+    <div class="min-h-svh bg-background text-foreground">
         <slot />
         <Toaster />
     </div>

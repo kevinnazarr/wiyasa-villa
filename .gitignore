@@ -38,3 +38,4 @@ Thumbs.db
 # Docker local state
 *.pid
 .omo
+.agents
