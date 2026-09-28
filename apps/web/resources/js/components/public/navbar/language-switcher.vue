@@ -34,10 +34,10 @@ function switchedUrl(locale: string): string {
             :href="switchedUrl(locale)"
             :aria-current="locale === currentLocale ? 'true' : undefined"
             :class="[
-                'rounded-md px-2 py-1 text-sm font-medium uppercase transition-colors',
+                'text-micro rounded-sm px-2 py-1 uppercase transition-colors',
                 locale === currentLocale
-                    ? 'bg-primary text-on-primary'
-                    : 'text-muted-foreground hover:text-foreground',
+                    ? 'bg-primary text-button-md text-on-primary'
+                    : 'text-nav-link text-muted-foreground hover:text-foreground',
             ]"
         >
             {{ locale }}

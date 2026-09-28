@@ -16,18 +16,22 @@ const locale = computed(() =>
     <Head :title="$t('public.home.title')" />
 
     <main class="mx-auto max-w-7xl px-4 py-12">
-        <h1 class="text-3xl font-semibold">{{ $t('public.home.heading') }}</h1>
-        <p class="mt-2 text-muted-foreground">{{ $t('common.tagline') }}</p>
+        <h1 class="font-display text-display-md">
+            {{ $t('public.home.heading') }}
+        </h1>
+        <p class="mt-2 text-body-sm text-muted-foreground">
+            {{ $t('common.tagline') }}
+        </p>
         <div class="mt-6 flex flex-wrap gap-3">
             <Link
                 :href="bookingIndex({ locale })"
-                class="inline-flex h-10 items-center rounded-md bg-primary px-5 text-sm font-medium text-on-primary"
+                class="inline-flex h-12 items-center rounded-sm bg-primary px-6 text-button-md text-on-primary transition-colors hover:bg-primary-active"
             >
                 {{ $t('common.bookNow') }}
             </Link>
             <Link
                 :href="cabinsIndex({ locale })"
-                class="inline-flex h-10 items-center rounded-md border border-border px-5 text-sm font-medium"
+                class="inline-flex h-12 items-center rounded-sm border border-border-strong bg-surface-card px-6 text-button-md text-primary"
             >
                 {{ $t('nav.cabins') }}
             </Link>

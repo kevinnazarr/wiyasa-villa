@@ -10,37 +10,38 @@
 :root {
     /* Brand & accent */
     --primary: #153528;
-    --primary-active: #0f2a20;
-    --primary-disabled: #8e9d95;
-    --secondary: #d8bd94;
+    --primary-active: #0e2b20;
+    --primary-disabled: #9baaa3;
+    --secondary: #53685d;
+    --accent: #d8bd94;
 
     /* Text */
-    --ink: #17251e;
-    --body: #46534c;
-    --muted-text: #707c75;
-    --muted-soft: #a8b1ac;
-    --on-primary: #f3ebd9;
-    --on-dark: #f3ebd9;
-    --legal-link: #153528;
+    --ink: #19352b;
+    --body: #52615a;
+    --muted-text: #7a8781;
+    --muted-soft: #aab4af;
+    --on-primary: #f8f3e8;
+    --on-dark: #ffffff;
+    --legal-link: #3f6655;
 
     /* Surfaces */
-    --canvas: #faf8f2;
-    --surface-soft: #f3efe7;
+    --canvas: #fcfbf7;
+    --surface-soft: #f4f6f2;
     --surface-card: #ffffff;
-    --surface-strong: #e4e9e5;
+    --surface-strong: #e8ede9;
 
     /* Hairlines & borders */
-    --hairline: #e0e6e2;
-    --hairline-soft: #edf1ee;
-    --border-strong: #bcc9c2;
+    --hairline: #dde4df;
+    --hairline-soft: #e9eeeb;
+    --border-strong: #b9c8c0;
 
     /* Semantic */
     --primary-error-text: #b42318;
     --primary-error-text-hover: #912018;
     --star-rating: #d8bd94;
-    --scrim: #0b2118;
+    --scrim: #10251d;
 
-    /* shadcn-vue compatibility aliases */
+    /* Structural role aliases (shadcn-vue compatibility) */
     --background: var(--canvas);
     --foreground: var(--ink);
     --card: var(--surface-card);
@@ -48,11 +49,10 @@
     --popover: var(--surface-card);
     --popover-foreground: var(--ink);
     --primary-foreground: var(--on-primary);
-    --secondary-foreground: var(--ink);
+    --secondary-foreground: var(--on-primary);
     --muted: var(--surface-soft);
     --muted-foreground: var(--muted-text);
-    --accent: var(--surface-strong);
-    --accent-foreground: var(--ink);
+    --accent-foreground: var(--primary);
     --destructive: var(--primary-error-text);
     --destructive-foreground: var(--on-primary);
     --border: var(--hairline);
@@ -76,131 +76,100 @@
     --sidebar: hsl(0 0% 98%);
 }
 
-.dark {
-    --canvas: hsl(0 0% 3.9%);
-    --surface-card: hsl(0 0% 3.9%);
-    --surface-soft: hsl(0 0% 16.08%);
-    --surface-strong: hsl(0 0% 14.9%);
-
-    --ink: hsl(0 0% 98%);
-    --body: hsl(0 0% 85%);
-    --muted-text: hsl(0 0% 63.9%);
-    --muted-soft: hsl(0 0% 45%);
-    --legal-link: hsl(0 0% 85%);
-
-    --hairline: hsl(0 0% 14.9%);
-    --hairline-soft: hsl(0 0% 12%);
-    --border-strong: hsl(0 0% 14.9%);
-
-    --primary: hsl(0 0% 98%);
-    --primary-active: hsl(0 0% 90%);
-    --primary-disabled: hsl(0 0% 45%);
-    --on-primary: hsl(0 0% 9%);
-    --secondary: hsl(0 0% 14.9%);
-    --primary-error-text: hsl(0 84% 60%);
-    --primary-error-text-hover: hsl(0 84% 55%);
-    --ring: hsl(0 0% 83.1%);
-    --destructive-foreground: hsl(0 0% 98%);
-
-    --chart-1: hsl(220 70% 50%);
-    --chart-2: hsl(160 60% 45%);
-    --chart-3: hsl(30 80% 55%);
-    --chart-4: hsl(280 65% 60%);
-    --chart-5: hsl(340 75% 55%);
-    --sidebar-background: hsl(0 0% 7%);
-    --sidebar-foreground: hsl(0 0% 95.9%);
-    --sidebar-primary: hsl(360, 100%, 100%);
-    --sidebar-primary-foreground: hsl(0 0% 100%);
-    --sidebar-accent: hsl(0 0% 15.9%);
-    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-    --sidebar-border: hsl(0 0% 15.9%);
-    --sidebar-ring: hsl(217.2 91.2% 59.8%);
-    --sidebar: hsl(240 5.9% 10%);
-}
-
-/* typography.* and rounded.* — static values, emitted as CSS variables. */
+/*Typography*/
 @theme {
     --font-sans:
-        'DM Sans', Inter, ui-sans-serif, system-ui, sans-serif,
+        'Manrope', Arial, ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
+    --font-display: 'Cormorant Garamond', Georgia, serif;
 
-    --text-display-xl: 48px;
-    --text-display-xl--line-height: 1.08;
-    --text-display-xl--letter-spacing: -0.96px;
-    --text-display-xl--font-weight: 700;
-    --text-display-lg: 40px;
-    --text-display-lg--line-height: 1.12;
+    --text-display-xl: 64px;
+    --text-display-xl--line-height: 1.02;
+    --text-display-xl--letter-spacing: -1.28px;
+    --text-display-xl--font-weight: 600;
+    --text-display-lg: 48px;
+    --text-display-lg--line-height: 1.05;
     --text-display-lg--letter-spacing: -0.72px;
-    --text-display-lg--font-weight: 700;
-    --text-display-md: 32px;
-    --text-display-md--line-height: 1.18;
+    --text-display-lg--font-weight: 600;
+    --text-display-md: 40px;
+    --text-display-md--line-height: 1.1;
     --text-display-md--letter-spacing: -0.48px;
-    --text-display-md--font-weight: 700;
-    --text-display-sm: 26px;
-    --text-display-sm--line-height: 1.22;
-    --text-display-sm--letter-spacing: -0.26px;
+    --text-display-md--font-weight: 600;
+    --text-display-sm: 32px;
+    --text-display-sm--line-height: 1.12;
+    --text-display-sm--letter-spacing: -0.32px;
     --text-display-sm--font-weight: 600;
+    --text-rating-display: 64px;
+    --text-rating-display--line-height: 1;
+    --text-rating-display--letter-spacing: -1px;
+    --text-rating-display--font-weight: 600;
     --text-title-md: 20px;
     --text-title-md--line-height: 1.3;
     --text-title-md--letter-spacing: -0.1px;
-    --text-title-md--font-weight: 600;
-    --text-title-sm: 18px;
-    --text-title-sm--line-height: 1.3;
-    --text-title-sm--font-weight: 600;
+    --text-title-md--font-weight: 700;
+    --text-title-sm: 17px;
+    --text-title-sm--line-height: 1.35;
+    --text-title-sm--font-weight: 700;
     --text-body-md: 16px;
-    --text-body-md--line-height: 1.5;
+    --text-body-md--line-height: 1.65;
     --text-body-md--font-weight: 400;
     --text-body-sm: 14px;
-    --text-body-sm--line-height: 1.45;
+    --text-body-sm--line-height: 1.55;
     --text-body-sm--font-weight: 400;
-    --text-caption: 14px;
-    --text-caption--line-height: 1.35;
-    --text-caption--font-weight: 500;
-    --text-caption-sm: 13px;
-    --text-caption-sm--line-height: 1.35;
+    --text-caption: 13px;
+    --text-caption--line-height: 1.4;
+    --text-caption--font-weight: 600;
+    --text-caption-sm: 12px;
+    --text-caption-sm--line-height: 1.4;
     --text-caption-sm--font-weight: 400;
     --text-badge: 11px;
     --text-badge--line-height: 1.2;
-    --text-badge--font-weight: 600;
-    --text-micro-label: 12px;
-    --text-micro-label--line-height: 1.3;
-    --text-micro-label--letter-spacing: 0.02px;
+    --text-badge--letter-spacing: 0.02px;
+    --text-badge--font-weight: 700;
+    --text-micro-label: 11px;
+    --text-micro-label--line-height: 1.35;
+    --text-micro-label--letter-spacing: 0.8px;
     --text-micro-label--font-weight: 700;
-    /* text-transform is not a theme concern: pair with the `uppercase` utility */
     --text-uppercase-tag: 10px;
-    --text-uppercase-tag--line-height: 1.2;
-    --text-uppercase-tag--letter-spacing: 0.48px;
+    --text-uppercase-tag--line-height: 1.25;
+    --text-uppercase-tag--letter-spacing: 1.2px;
     --text-uppercase-tag--font-weight: 700;
-    --text-button-md: 15px;
-    --text-button-md--line-height: 1.25;
-    --text-button-md--font-weight: 600;
-    --text-button-sm: 14px;
-    --text-button-sm--line-height: 1.3;
-    --text-button-sm--font-weight: 600;
+    --text-button-md: 14px;
+    --text-button-md--line-height: 1.2;
+    --text-button-md--font-weight: 700;
+    --text-button-sm: 13px;
+    --text-button-sm--line-height: 1.25;
+    --text-button-sm--font-weight: 700;
     --text-link: 14px;
-    --text-link--line-height: 1.4;
-    --text-link--font-weight: 500;
-    --text-nav-link: 15px;
+    --text-link--line-height: 1.5;
+    --text-link--font-weight: 600;
+    --text-nav-link: 13px;
     --text-nav-link--line-height: 1.25;
-    --text-nav-link--font-weight: 600;
+    --text-nav-link--letter-spacing: 0.1px;
+    --text-nav-link--font-weight: 700;
 
-    /* rounded.full is already 9999px in Tailwind's default scale */
+    /* rounded.* — exact spec values */
     --radius-xs: 4px;
     --radius-sm: 8px;
     --radius-md: 14px;
     --radius-lg: 20px;
     --radius-xl: 28px;
+
+    /* Elevation tiers (green-tinted, never pure black) */
+    --shadow-lift: 0 8px 30px rgb(21 53 40 / 0.08);
+    --shadow-float: 0 20px 60px rgb(21 53 40 / 0.14);
 }
 
 @theme inline {
-    /* colors.* — DESIGN.md names */
+    /* colors.* — spec names */
     --color-primary: var(--primary);
     --color-primary-active: var(--primary-active);
     --color-primary-disabled: var(--primary-disabled);
     --color-primary-error-text: var(--primary-error-text);
     --color-primary-error-text-hover: var(--primary-error-text-hover);
     --color-secondary: var(--secondary);
+    --color-accent: var(--accent);
     --color-ink: var(--ink);
     --color-body: var(--body);
     --color-muted-soft: var(--muted-soft);
@@ -217,6 +186,7 @@
     --color-star-rating: var(--star-rating);
     --color-scrim: var(--scrim);
 
+    /* Structural roles consumed by components */
     --color-background: var(--background);
     --color-foreground: var(--foreground);
 
@@ -233,7 +203,6 @@
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
 
-    --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
 
     --color-destructive: var(--destructive);
@@ -259,14 +228,6 @@
     --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
     *,
     ::after,
@@ -282,6 +243,6 @@
         @apply border-border outline-ring/50;
     }
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background font-sans text-foreground;
     }
 }

@@ -15,13 +15,13 @@ const year = new Date().getFullYear();
 </script>
 
 <template>
-    <footer class="border-t border-border bg-background">
+    <footer class="bg-primary text-on-primary">
         <div
-            class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 md:flex-row md:items-center md:justify-between"
+            class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-16 md:flex-row md:items-center md:justify-between"
         >
             <div>
                 <p class="font-medium">{{ $t('common.appName') }}</p>
-                <p class="text-sm text-muted-foreground">
+                <p class="text-body-sm text-on-primary/80">
                     {{ $t('common.tagline') }}
                 </p>
             </div>
@@ -31,33 +31,33 @@ const year = new Date().getFullYear();
             >
                 <Link
                     :href="home({ locale })"
-                    class="text-muted-foreground transition-colors hover:text-foreground"
+                    class="text-on-primary/80 transition-colors hover:text-on-primary"
                 >
                     {{ $t('nav.home') }}
                 </Link>
                 <Link
                     :href="cabinsIndex({ locale })"
-                    class="text-muted-foreground transition-colors hover:text-foreground"
+                    class="text-on-primary/80 transition-colors hover:text-on-primary"
                 >
                     {{ $t('nav.cabins') }}
                 </Link>
                 <Link
                     :href="about({ locale })"
-                    class="text-muted-foreground transition-colors hover:text-foreground"
+                    class="text-on-primary/80 transition-colors hover:text-on-primary"
                 >
                     {{ $t('nav.about') }}
                 </Link>
                 <Link
                     :href="contact({ locale })"
-                    class="text-muted-foreground transition-colors hover:text-foreground"
+                    class="text-on-primary/80 transition-colors hover:text-on-primary"
                 >
                     {{ $t('nav.contact') }}
                 </Link>
             </nav>
         </div>
-        <div class="border-t border-border">
+        <div class="border-t border-white/10 bg-primary-active">
             <p
-                class="mx-auto max-w-7xl px-4 py-4 text-xs text-muted-foreground"
+                class="mx-auto max-w-7xl px-4 py-4 text-caption-sm text-muted-soft"
             >
                 © {{ year }} {{ $t('common.appName') }}.
                 {{ $t('public.footer.rights') }}

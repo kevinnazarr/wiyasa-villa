@@ -19,13 +19,13 @@ const locale = computed(() =>
 );
 
 const linkClasses =
-    'rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground';
-const activeLinkClasses = 'text-foreground';
+    'rounded-sm px-3 py-2 text-nav-link text-muted-foreground transition-colors hover:text-foreground';
+const activeLinkClasses = 'text-primary';
 </script>
 
 <template>
-    <header class="sticky top-0 z-40 border-b border-border bg-background">
-        <div class="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4">
+    <header class="sticky top-0 z-40 border-b border-hairline bg-surface-card">
+        <div class="mx-auto flex h-20 max-w-7xl items-center gap-2 px-4">
             <Link :href="home({ locale })" class="flex items-center gap-x-2">
                 <AppLogo />
             </Link>
@@ -83,7 +83,7 @@ const activeLinkClasses = 'text-foreground';
                 </Link>
                 <Link
                     :href="bookingIndex({ locale })"
-                    class="inline-flex h-9 items-center rounded-md bg-primary px-4 text-sm font-medium text-on-primary"
+                    class="inline-flex h-12 items-center rounded-sm bg-primary px-6 text-button-md text-on-primary transition-colors hover:bg-primary-active"
                 >
                     {{ $t('common.bookNow') }}
                 </Link>
@@ -102,7 +102,7 @@ const activeLinkClasses = 'text-foreground';
 
         <nav
             v-if="menuOpen"
-            class="border-t border-border px-4 py-2 md:hidden"
+            class="border-t border-hairline px-4 py-2 md:hidden"
             aria-label="Mobile"
         >
             <Link

@@ -15,12 +15,12 @@ defineProps<{
     <Head :title="$t('public.cabins.title')" />
 
     <main class="mx-auto max-w-7xl px-4 py-12">
-        <h1 class="text-3xl font-semibold">
+        <h1 class="font-display text-display-sm">
             {{ $t('public.cabins.heading') }}
         </h1>
         <p
             v-if="!cabins || cabins.length === 0"
-            class="mt-4 text-sm text-muted-foreground"
+            class="mt-4 text-body-sm text-body"
         >
             {{ $t('public.cabins.empty') }}
         </p>
@@ -28,7 +28,7 @@ defineProps<{
             <li
                 v-for="cabin in cabins"
                 :key="cabin.id"
-                class="rounded-xl border border-border p-4"
+                class="rounded-lg border border-hairline bg-surface-card p-4"
             >
                 {{ cabin.name }}
             </li>

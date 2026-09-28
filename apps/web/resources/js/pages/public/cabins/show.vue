@@ -15,13 +15,16 @@ defineProps<{
     <Head :title="$t('public.cabins.title')" />
 
     <main class="mx-auto max-w-7xl px-4 py-12">
-        <h1 class="text-3xl font-semibold">
+        <h1 class="font-display text-display-sm">
             {{ $t('public.cabins.heading') }}
         </h1>
-        <p v-if="!cabin" class="mt-4 text-sm text-muted-foreground">
+        <p v-if="!cabin" class="mt-4 text-body-sm text-body">
             {{ $t('public.cabins.detailEmpty') }}
         </p>
-        <div v-else class="mt-6 rounded-xl border border-border p-4">
+        <div
+            v-else
+            class="mt-6 rounded-lg border border-hairline bg-surface-card p-4"
+        >
             {{ cabin.name }}
         </div>
     </main>

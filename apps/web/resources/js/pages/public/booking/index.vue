@@ -10,10 +10,10 @@ defineProps<{
     <Head :title="$t('public.booking.title')" />
 
     <main class="mx-auto max-w-7xl px-4 py-12">
-        <h1 class="text-3xl font-semibold">
+        <h1 class="font-display text-display-sm">
             {{ $t('public.booking.heading') }}
         </h1>
-        <p class="mt-4 text-sm text-muted-foreground">
+        <p class="mt-4 text-body-sm text-body">
             {{ $t('public.booking.empty') }}
         </p>
     </main>
