@@ -41,4 +41,37 @@ export default {
             completed: 'Selesai',
         },
     },
+    public: {
+        home: {
+            title: 'Beranda',
+            heading: 'Menginap Tenang di Dieng',
+            empty: 'Konten beranda belum tersedia.',
+        },
+        cabins: {
+            title: 'Kabin',
+            heading: 'Pilih Kabin Anda',
+            empty: 'Belum ada kabin yang tersedia.',
+            detailEmpty: 'Detail kabin belum tersedia.',
+        },
+        booking: {
+            title: 'Pemesanan',
+            heading: 'Buat Pemesanan',
+            empty: 'Formulir pemesanan belum tersedia.',
+            confirmationTitle: 'Konfirmasi Pemesanan',
+            confirmationEmpty: 'Detail konfirmasi belum tersedia.',
+        },
+        about: {
+            title: 'Tentang Kami',
+            heading: 'Tentang Wiyasa Villa',
+            empty: 'Informasi tentang kami belum tersedia.',
+        },
+        contact: {
+            title: 'Kontak',
+            heading: 'Hubungi Kami',
+            empty: 'Informasi kontak belum tersedia.',
+        },
+        footer: {
+            rights: 'Seluruh hak cipta dilindungi.',
+        },
+    },
 } as const;

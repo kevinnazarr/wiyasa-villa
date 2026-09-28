@@ -39,3 +39,6 @@ Thumbs.db
 *.pid
 .omo
 .agents
+
+# Reusable local PR description draft (not for repo)
+DES.md
