@@ -114,31 +114,31 @@ watch(
         <DialogContent class="sm:max-w-md">
             <DialogHeader class="flex items-center justify-center">
                 <div
-                    class="mb-3 w-auto rounded-full border border-border bg-card p-0.5 shadow-sm"
+                    class="mb-3 border-border bg-card p-0.5 shadow-sm w-auto rounded-full border"
                 >
                     <div
-                        class="relative overflow-hidden rounded-full border border-border bg-muted p-2.5"
+                        class="border-border bg-muted p-2.5 relative overflow-hidden rounded-full border"
                     >
                         <div
-                            class="absolute inset-0 grid grid-cols-5 opacity-50"
+                            class="inset-0 absolute grid grid-cols-5 opacity-50"
                         >
                             <div
                                 v-for="i in 5"
                                 :key="`col-${i}`"
-                                class="border-r border-border last:border-r-0"
+                                class="border-border border-r last:border-r-0"
                             />
                         </div>
                         <div
-                            class="absolute inset-0 grid grid-rows-5 opacity-50"
+                            class="inset-0 absolute grid grid-rows-5 opacity-50"
                         >
                             <div
                                 v-for="i in 5"
                                 :key="`row-${i}`"
-                                class="border-b border-border last:border-b-0"
+                                class="border-border border-b last:border-b-0"
                             />
                         </div>
                         <ScanLine
-                            class="relative z-20 size-6 text-foreground"
+                            class="size-6 text-foreground relative z-20"
                         />
                     </div>
                 </div>
@@ -149,26 +149,26 @@ watch(
             </DialogHeader>
 
             <div
-                class="relative flex w-auto flex-col items-center justify-center space-y-5"
+                class="space-y-5 relative flex w-auto flex-col items-center justify-center"
             >
                 <template v-if="!showVerificationStep">
                     <AlertError v-if="errors?.length" :errors="errors" />
                     <template v-else>
                         <div
-                            class="relative mx-auto flex max-w-md items-center overflow-hidden"
+                            class="max-w-md relative mx-auto flex items-center overflow-hidden"
                         >
                             <div
-                                class="relative mx-auto aspect-square w-64 overflow-hidden rounded-lg border border-border"
+                                class="w-64 rounded-lg border-border relative mx-auto aspect-square overflow-hidden border"
                             >
                                 <div
                                     v-if="!qrCodeSvg"
-                                    class="absolute inset-0 z-10 flex aspect-square h-auto w-full animate-pulse items-center justify-center bg-background"
+                                    class="inset-0 animate-pulse bg-background absolute z-10 flex aspect-square h-auto w-full items-center justify-center"
                                 >
                                     <Spinner class="size-6" />
                                 </div>
                                 <div
                                     v-else
-                                    class="relative z-10 overflow-hidden border p-5"
+                                    class="p-5 relative z-10 overflow-hidden border"
                                 >
                                     <div
                                         v-html="qrCodeSvg"
@@ -184,7 +184,7 @@ watch(
                             </div>
                         </div>
 
-                        <div class="flex w-full items-center space-x-5">
+                        <div class="space-x-5 flex w-full items-center">
                             <Button class="w-full" @click="handleModalNextStep">
                                 {{ modalConfig.buttonText }}
                             </Button>
@@ -194,22 +194,22 @@ watch(
                             class="relative flex w-full items-center justify-center"
                         >
                             <div
-                                class="absolute inset-0 top-1/2 h-px w-full bg-border"
+                                class="inset-0 bg-border absolute top-1/2 h-px w-full"
                             />
-                            <span class="relative bg-card px-2 py-1"
+                            <span class="bg-card px-2 py-1 relative"
                                 >or, enter the code manually</span
                             >
                         </div>
 
                         <div
-                            class="flex w-full items-center justify-center space-x-2"
+                            class="space-x-2 flex w-full items-center justify-center"
                         >
                             <div
-                                class="flex w-full items-stretch overflow-hidden rounded-xl border border-border"
+                                class="rounded-xl border-border flex w-full items-stretch overflow-hidden border"
                             >
                                 <div
                                     v-if="!manualSetupKey"
-                                    class="flex h-full w-full items-center justify-center bg-muted p-3"
+                                    class="bg-muted p-3 flex h-full w-full items-center justify-center"
                                 >
                                     <Spinner />
                                 </div>
@@ -218,11 +218,11 @@ watch(
                                         type="text"
                                         readonly
                                         :value="manualSetupKey"
-                                        class="h-full w-full bg-background p-3 text-foreground"
+                                        class="bg-background p-3 text-foreground h-full w-full"
                                     />
                                     <button
                                         @click="copy(manualSetupKey || '')"
-                                        class="relative block h-auto border-l border-border px-3 hover:bg-muted"
+                                        class="border-border px-3 hover:bg-muted relative block h-auto border-l"
                                     >
                                         <Check
                                             v-if="copied"
@@ -248,10 +248,10 @@ watch(
                         <input type="hidden" name="code" :value="code" />
                         <div
                             ref="pinInputContainerRef"
-                            class="relative w-full space-y-3"
+                            class="space-y-3 relative w-full"
                         >
                             <div
-                                class="flex w-full flex-col items-center justify-center space-y-3 py-2"
+                                class="space-y-3 py-2 flex w-full flex-col items-center justify-center"
                             >
                                 <InputOTP
                                     id="otp"
@@ -271,7 +271,7 @@ watch(
                                 <InputError :message="errors?.code" />
                             </div>
 
-                            <div class="flex w-full items-center space-x-5">
+                            <div class="space-x-5 flex w-full items-center">
                                 <Button
                                     type="button"
                                     variant="outline"

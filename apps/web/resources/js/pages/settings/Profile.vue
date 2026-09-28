@@ -32,7 +32,7 @@ const user = computed(() => page.props.auth.user);
 
     <h1 class="sr-only">Profile settings</h1>
 
-    <div class="flex flex-col space-y-6">
+    <div class="space-y-6 flex flex-col">
         <Heading
             variant="small"
             title="Profile"
@@ -44,7 +44,7 @@ const user = computed(() => page.props.auth.user);
             class="space-y-6"
             v-slot="{ errors, processing }"
         >
-            <div class="grid gap-2">
+            <div class="gap-2 grid">
                 <Label for="name">Name</Label>
                 <Input
                     id="name"
@@ -58,7 +58,7 @@ const user = computed(() => page.props.auth.user);
                 <InputError class="mt-2" :message="errors.name" />
             </div>
 
-            <div class="grid gap-2">
+            <div class="gap-2 grid">
                 <Label for="email">Email address</Label>
                 <Input
                     id="email"
@@ -79,7 +79,7 @@ const user = computed(() => page.props.auth.user);
                     <Link
                         :href="send()"
                         as="button"
-                        class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+                        class="text-foreground decoration-neutral-300 ease-out dark:decoration-neutral-500 underline underline-offset-4 transition-colors duration-300 hover:decoration-current!"
                     >
                         Click here to re-send the verification email.
                     </Link>
@@ -93,7 +93,7 @@ const user = computed(() => page.props.auth.user);
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="gap-4 flex items-center">
                 <Button :disabled="processing" data-test="update-profile-button"
                     >Save</Button
                 >
