@@ -35,10 +35,10 @@ const { isCurrentOrParentUrl } = useCurrentUrl();
             description="Manage your profile and account settings"
         />
 
-        <div class="lg:flex-row lg:space-x-12 flex flex-col">
-            <aside class="max-w-xl lg:w-48 w-full">
+        <div class="flex flex-col lg:flex-row lg:space-x-12">
+            <aside class="w-full max-w-xl lg:w-48">
                 <nav
-                    class="space-y-1 space-x-0 flex flex-col"
+                    class="flex flex-col space-y-1 space-x-0"
                     aria-label="Settings"
                 >
                     <Button
@@ -61,7 +61,7 @@ const { isCurrentOrParentUrl } = useCurrentUrl();
 
             <Separator class="my-6 lg:hidden" />
 
-            <div class="md:max-w-2xl flex-1">
+            <div class="flex-1 md:max-w-2xl">
                 <section class="max-w-xl space-y-12">
                     <slot />
                 </section>

@@ -148,8 +148,7 @@ jobs:
         run: npm ci
 
       - name: Run lint when configured
-        working-directory: .
-        run: npm run lint --workspace apps/web --if-present
+        run: npm run lint
 
       - name: Run typecheck when configured
         working-directory: .

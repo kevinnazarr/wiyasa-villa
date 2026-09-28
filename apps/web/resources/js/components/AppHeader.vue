@@ -77,8 +77,8 @@ const rightNavItems: NavItem[] = [
 
 <template>
     <div>
-        <div class="border-sidebar-border/80 border-b">
-            <div class="h-16 px-4 md:max-w-7xl mx-auto flex items-center">
+        <div class="border-b border-sidebar-border/80">
+            <div class="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
                 <!-- Mobile Menu -->
                 <div class="lg:hidden">
                     <Sheet>
@@ -91,24 +91,24 @@ const rightNavItems: NavItem[] = [
                                 <Menu class="h-5 w-5" />
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="left" class="p-6 w-[300px]">
+                        <SheetContent side="left" class="w-[300px] p-6">
                             <SheetTitle class="sr-only"
                                 >Navigation menu</SheetTitle
                             >
                             <SheetHeader class="flex justify-start text-left">
                                 <AppLogoIcon
-                                    class="size-6 text-black dark:text-white fill-current"
+                                    class="size-6 fill-current text-black dark:text-white"
                                 />
                             </SheetHeader>
                             <div
-                                class="space-y-4 py-6 flex h-full flex-1 flex-col justify-between"
+                                class="flex h-full flex-1 flex-col justify-between space-y-4 py-6"
                             >
                                 <nav class="-mx-3 space-y-1">
                                     <Link
                                         v-for="item in mainNavItems"
                                         :key="item.title"
                                         :href="item.href"
-                                        class="gap-x-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent flex items-center"
+                                        class="flex items-center gap-x-3 rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent"
                                         :class="
                                             whenCurrentUrl(
                                                 item.href,
@@ -124,14 +124,14 @@ const rightNavItems: NavItem[] = [
                                         {{ item.title }}
                                     </Link>
                                 </nav>
-                                <div class="space-y-4 flex flex-col">
+                                <div class="flex flex-col space-y-4">
                                     <a
                                         v-for="item in rightNavItems"
                                         :key="item.title"
                                         :href="toUrl(item.href)"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="space-x-2 text-sm font-medium flex items-center"
+                                        class="flex items-center space-x-2 text-sm font-medium"
                                     >
                                         <component
                                             v-if="item.icon"
@@ -146,15 +146,15 @@ const rightNavItems: NavItem[] = [
                     </Sheet>
                 </div>
 
-                <Link :href="dashboard()" class="gap-x-2 flex items-center">
+                <Link :href="dashboard()" class="flex items-center gap-x-2">
                     <AppLogo />
                 </Link>
 
                 <!-- Desktop Menu -->
-                <div class="lg:flex lg:flex-1 hidden h-full">
+                <div class="hidden h-full lg:flex lg:flex-1">
                     <NavigationMenu class="ml-10 flex h-full items-stretch">
                         <NavigationMenuList
-                            class="space-x-2 flex h-full items-stretch"
+                            class="flex h-full items-stretch space-x-2"
                         >
                             <NavigationMenuItem
                                 v-for="(item, index) in mainNavItems"
@@ -168,7 +168,7 @@ const rightNavItems: NavItem[] = [
                                             item.href,
                                             activeItemStyles,
                                         ),
-                                        'h-9 px-3 cursor-pointer',
+                                        'h-9 cursor-pointer px-3',
                                     ]"
                                     :href="item.href"
                                 >
@@ -181,15 +181,15 @@ const rightNavItems: NavItem[] = [
                                 </Link>
                                 <div
                                     v-if="isCurrentUrl(item.href)"
-                                    class="bottom-0 left-0 h-0.5 bg-black dark:bg-white absolute w-full translate-y-px"
+                                    class="absolute bottom-0 left-0 h-0.5 w-full translate-y-px bg-black dark:bg-white"
                                 ></div>
                             </NavigationMenuItem>
                         </NavigationMenuList>
                     </NavigationMenu>
                 </div>
 
-                <div class="space-x-2 ml-auto flex items-center">
-                    <div class="space-x-1 relative flex items-center">
+                <div class="ml-auto flex items-center space-x-2">
+                    <div class="relative flex items-center space-x-1">
                         <Button
                             variant="ghost"
                             size="icon"
@@ -200,7 +200,7 @@ const rightNavItems: NavItem[] = [
                             />
                         </Button>
 
-                        <div class="space-x-1 lg:flex hidden">
+                        <div class="hidden space-x-1 lg:flex">
                             <template
                                 v-for="item in rightNavItems"
                                 :key="item.title"
@@ -243,7 +243,7 @@ const rightNavItems: NavItem[] = [
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                class="size-10 p-1 focus-within:ring-primary relative w-auto rounded-full focus-within:ring-2"
+                                class="relative size-10 w-auto rounded-full p-1 focus-within:ring-2 focus-within:ring-primary"
                             >
                                 <Avatar
                                     class="size-8 overflow-hidden rounded-full"
@@ -271,10 +271,10 @@ const rightNavItems: NavItem[] = [
 
         <div
             v-if="props.breadcrumbs.length > 1"
-            class="border-sidebar-border/70 flex w-full border-b"
+            class="flex w-full border-b border-sidebar-border/70"
         >
             <div
-                class="h-12 px-4 text-neutral-500 md:max-w-7xl mx-auto flex w-full items-center justify-start"
+                class="mx-auto flex h-12 w-full items-center justify-start px-4 text-neutral-500 md:max-w-7xl"
             >
                 <Breadcrumbs :breadcrumbs="breadcrumbs" />
             </div>
