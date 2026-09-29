@@ -14,7 +14,9 @@ Route::prefix('{locale?}')->whereIn('locale', ['id', 'en'])->group(function () {
     Route::inertia('contact', 'public/contact/index')->name('contact');
 
     Route::middleware(['auth', 'verified'])->group(function () {
-        Route::inertia('dashboard', 'user/dashboard/index')->name('dashboard');
+        Route::inertia('bookings', 'user/bookings/index')->name('bookings.index');
+        Route::inertia('bookings/{booking}', 'user/bookings/show')->name('bookings.show');
+        Route::inertia('profile', 'user/profile/index')->name('profile.index');
     });
 
     require __DIR__.'/settings.php';

@@ -21,6 +21,7 @@ export default {
         about: 'About',
         contact: 'Contact',
         myBookings: 'My Bookings',
+        profile: 'Profile',
         login: 'Log In',
         register: 'Register',
         logout: 'Log Out',
