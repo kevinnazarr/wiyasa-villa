@@ -38,6 +38,12 @@ class SetLocale
         App::setLocale($locale);
         URL::defaults(['locale' => $locale]);
 
+        $routeLocale = $request->route('locale');
+
+        if (is_string($routeLocale) && in_array($routeLocale, self::SUPPORTED_LOCALES, true)) {
+            $request->session()->put('locale', $routeLocale);
+        }
+
         return $next($request);
     }
 }

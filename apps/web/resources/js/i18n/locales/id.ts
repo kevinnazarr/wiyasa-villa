@@ -21,6 +21,7 @@ export default {
         about: 'Tentang Kami',
         contact: 'Kontak',
         myBookings: 'Pesanan Saya',
+        profile: 'Profil',
         login: 'Masuk',
         register: 'Daftar',
         logout: 'Keluar',

@@ -73,7 +73,7 @@ return [
     |
     */
 
-    'home' => '/id/dashboard',
+    'home' => '/id/bookings',
 
     'redirects' => [
         'logout' => '/id',

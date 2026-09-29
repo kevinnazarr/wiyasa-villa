@@ -31,26 +31,26 @@ test('en locale route is accessible and sets locale to en', function () {
 });
 
 test('unsupported locale prefix redirects to default id locale with path preserved', function () {
-    $response = $this->get('/fr/dashboard');
+    $response = $this->get('/fr/bookings');
 
-    $response->assertRedirect('/id/fr/dashboard');
+    $response->assertRedirect('/id/fr/bookings');
 });
 
 test('missing locale prefix on deep path redirects to id prefix', function () {
-    $response = $this->get('/dashboard');
+    $response = $this->get('/bookings');
 
-    $response->assertRedirect('/id/dashboard');
+    $response->assertRedirect('/id/bookings');
 });
 
 test('authenticated routes respect locale prefix', function () {
     $user = User::factory()->make();
 
-    $response = $this->actingAs($user)->get('/en/dashboard');
+    $response = $this->actingAs($user)->get('/en/bookings');
 
     $response->assertOk();
     expect(app()->getLocale())->toBe('en');
     $response->assertInertia(fn ($page) => $page
-        ->component('user/dashboard/index')
+        ->component('user/bookings/index')
         ->where('locale', 'en')
     );
 });
