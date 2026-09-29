@@ -2,8 +2,10 @@
 
 namespace App\Actions\Reservation;
 
+use App\Enums\CabinStatus;
 use App\Enums\ReservationSource;
 use App\Enums\ReservationStatus;
+use App\Models\Cabin;
 use App\Models\Reservation;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +41,18 @@ class CreateReservationHold
                 return DB::transaction(function () use ($input, $checkIn, $checkOut, $adults, $children, $infants, $total) {
                     $cabinId = (int) $input['cabin_id'];
 
-                    // ponytail: no cabin-row lock, cabins table is FUTURE; re-check overlap inside txn, add lockForUpdate on cabins when table exists
+                    // Row-level lock: serialize concurrent holds on the same cabin so only one wins.
+                    /** @var Cabin $cabin */
+                    $cabin = Cabin::query()->whereKey($cabinId)->lockForUpdate()->firstOrFail();
+
+                    if ($cabin->status !== CabinStatus::Active) {
+                        throw ValidationException::withMessages(['cabin_id' => 'Cabin is not available for booking.']);
+                    }
+
+                    if ($total > $cabin->capacity) {
+                        throw ValidationException::withMessages(['total_guests' => 'Guest count exceeds cabin capacity.']);
+                    }
+
                     $conflict = Reservation::query()->active()->overlapping($cabinId, $checkIn, $checkOut)->exists();
 
                     if ($conflict) {

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $locale
  * @property ReservationSource $source
  * @property ReservationStatus $status
+ * @property Cabin $cabin
  */
 class Reservation extends Model
 {
@@ -66,6 +67,11 @@ class Reservation extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function cabin(): BelongsTo
+    {
+        return $this->belongsTo(Cabin::class);
     }
 
     /**
