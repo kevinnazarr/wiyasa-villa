@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { isSupportedLocale } from '@/i18n';
+import { index as bookingIndex } from '@/routes/booking';
 
 type CabinDetail = {
     id: number | string;
@@ -9,6 +12,12 @@ type CabinDetail = {
 defineProps<{
     cabin?: CabinDetail | null;
 }>();
+
+const page = usePage();
+
+const locale = computed(() =>
+    isSupportedLocale(page.props.locale) ? page.props.locale : 'id',
+);
 </script>
 
 <template>
@@ -26,6 +35,18 @@ defineProps<{
             class="mt-6 rounded-lg border border-hairline bg-surface-card p-4"
         >
             {{ cabin.name }}
+            <div class="mt-4">
+                <Link
+                    :href="
+                        bookingIndex(
+                            { locale },
+                            { query: { cabin_id: cabin.id } },
+                        )
+                    "
+                >
+                    {{ $t('common.bookNow') }}
+                </Link>
+            </div>
         </div>
     </main>
 </template>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Cabin;
+
 dataset('public locales', ['id', 'en']);
 
 test('home page renders for each locale', function (string $locale) {
@@ -23,6 +25,8 @@ test('cabins index page renders for each locale', function (string $locale) {
 })->with('public locales');
 
 test('cabin show page renders for each locale', function (string $locale) {
+    Cabin::factory()->create(['slug' => 'pine-ridge']);
+
     $response = $this->get("/{$locale}/cabins/pine-ridge");
 
     $response->assertOk();

@@ -2,8 +2,14 @@
 import { Head } from '@inertiajs/vue3';
 import { index as bookingsIndex } from '@/routes/bookings';
 
+type BookingDetail = {
+    id: number | string;
+    code?: string | null;
+    status?: string | null;
+};
+
 defineProps<{
-    booking?: { id: number | string } | null;
+    booking?: BookingDetail | null;
 }>();
 
 defineOptions({
@@ -25,5 +31,17 @@ defineOptions({
         <h1 class="font-display text-display-sm">
             {{ $t('nav.myBookings') }}
         </h1>
+        <div
+            v-if="booking"
+            class="mt-6 rounded-lg border border-hairline bg-surface-card p-4"
+        >
+            <p>{{ booking.id }}</p>
+            <p v-if="booking.code" class="mt-2 text-body-sm text-body">
+                {{ booking.code }}
+            </p>
+            <p v-if="booking.status" class="mt-2 text-body-sm text-body">
+                {{ booking.status }}
+            </p>
+        </div>
     </main>
 </template>

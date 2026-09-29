@@ -2,7 +2,8 @@
 **Wiyasa Villa — Premium Private Cabin Stay in Dieng, Wonosobo**
 
 **Version:** 1.2  
-**Status:** Final Baseline  
+**Status:** Final Baseline — requirements target (FUTURE vs actual HEAD 453822e)
+**Actual State (HEAD 453822e):** cabins/cabin_translations/reservations implemented with Cabin lock + overlap engine; PG concurrency proven (exactly-one-hold); availability pre-check + HTTP booking flow (cabins catalog/detail, booking POST via engine, owner bookings) wired to real data. Payment/voucher/invoice/QR/pricing sections below are FUTURE, not yet implemented.
 **Audience:** Product, Design, Frontend, Backend, QA, DevOps
 
 ---
