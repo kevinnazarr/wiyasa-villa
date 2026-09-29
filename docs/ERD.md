@@ -2,7 +2,8 @@
 
 **Document:** Entity Relationship Diagram  
 **Version:** 1.1  
-**Status:** Final Baseline  
+**Status:** Final Baseline — schema target (FUTURE vs actual HEAD 6011366)  
+**Actual State (HEAD 6011366):** DB has only users/cache/jobs/2FA tables; cabins/reservations/payments/voucher/invoice tables below are FUTURE, not yet migrated.  
 **Database:** PostgreSQL  
 
 ---
