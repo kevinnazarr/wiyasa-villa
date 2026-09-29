@@ -40,28 +40,40 @@ class BookingController extends Controller
             }
         }
 
+        $user = $request->user();
+
         return Inertia::render('public/booking/index', [
             'cabinId' => $cabinId,
+            'authUser' => $user !== null ? [
+                'name' => $user->name,
+                'email' => $user->email,
+            ] : null,
         ]);
     }
 
     public function store(StoreBookingRequest $request): RedirectResponse
     {
+        $user = $request->user();
+        $validated = $request->validated();
+
         $reservation = CreateReservationHold::run([
-            ...$request->validated(),
-            'user_id' => $request->user()->id,
+            ...$validated,
+            'user_id' => $user?->id,
+            'guest_name' => $validated['guest_name'] ?? $user?->name,
+            'guest_email' => $validated['guest_email'] ?? $user?->email,
+            'guest_phone' => $validated['guest_phone'] ?? null,
             'locale' => $request->route('locale') ?? app()->getLocale(),
         ]);
 
-        return to_route('booking.confirmation', ['code' => $reservation->booking_code]);
+        return to_route('booking.confirmation', ['token' => $reservation->public_token]);
     }
 
     public function confirmation(Request $request): Response
     {
-        $code = (string) $request->query('code', '');
+        $token = (string) $request->query('token', '');
 
-        $reservation = $code !== ''
-            ? Reservation::query()->where('booking_code', $code)->first()
+        $reservation = $token !== ''
+            ? Reservation::query()->where('public_token', $token)->first()
             : null;
 
         return Inertia::render('public/booking/confirmation', [

@@ -10,9 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property int $id
- * @property int $user_id
+ * @property ?int $user_id
  * @property int $cabin_id
  * @property string $booking_code
+ * @property ?string $guest_name
+ * @property ?string $guest_email
+ * @property ?string $guest_phone
+ * @property string $public_token
  * @property string $locale
  * @property ReservationSource $source
  * @property ReservationStatus $status
@@ -24,6 +28,10 @@ class Reservation extends Model
         'user_id',
         'cabin_id',
         'booking_code',
+        'guest_name',
+        'guest_email',
+        'guest_phone',
+        'public_token',
         'locale',
         'source',
         'status',

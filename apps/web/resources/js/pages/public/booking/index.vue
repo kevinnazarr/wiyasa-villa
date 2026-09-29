@@ -7,6 +7,7 @@ import { store as bookingStore } from '@/routes/booking';
 
 defineProps<{
     cabinId?: number | string | null;
+    authUser?: { name: string; email: string } | null;
 }>();
 
 const page = usePage();
@@ -37,6 +38,7 @@ const locale = computed(() =>
                     id="cabin_id"
                     type="number"
                     name="cabin_id"
+                    min="1"
                     :value="cabinId ?? ''"
                 />
                 <InputError :message="errors.cabin_id" />
@@ -64,7 +66,7 @@ const locale = computed(() =>
                     <InputError :message="errors.adults" />
                 </div>
                 <div class="grid gap-2">
-                    <label for="children">Children</label>
+                    <label for="children">{{ $t('booking.children') }}</label>
                     <input
                         id="children"
                         type="number"
@@ -75,7 +77,7 @@ const locale = computed(() =>
                     <InputError :message="errors.children" />
                 </div>
                 <div class="grid gap-2">
-                    <label for="infants">Infants</label>
+                    <label for="infants">{{ $t('booking.infants') }}</label>
                     <input
                         id="infants"
                         type="number"
@@ -86,6 +88,45 @@ const locale = computed(() =>
                     <InputError :message="errors.infants" />
                 </div>
             </div>
+            <fieldset class="mt-6 max-w-xl space-y-4">
+                <legend>{{ $t('public.booking.guestHeading') }}</legend>
+                <div class="grid gap-2">
+                    <label for="guest_name">{{
+                        $t('public.booking.guestName')
+                    }}</label>
+                    <input
+                        id="guest_name"
+                        type="text"
+                        name="guest_name"
+                        :value="authUser?.name ?? ''"
+                    />
+                    <InputError :message="errors.guest_name" />
+                </div>
+                <div class="grid gap-2">
+                    <label for="guest_email">{{
+                        $t('public.booking.guestEmail')
+                    }}</label>
+                    <input
+                        id="guest_email"
+                        type="email"
+                        name="guest_email"
+                        :value="authUser?.email ?? ''"
+                    />
+                    <InputError :message="errors.guest_email" />
+                </div>
+                <div class="grid gap-2">
+                    <label for="guest_phone">{{
+                        $t('public.booking.guestPhone')
+                    }}</label>
+                    <input
+                        id="guest_phone"
+                        type="tel"
+                        name="guest_phone"
+                        value=""
+                    />
+                    <InputError :message="errors.guest_phone" />
+                </div>
+            </fieldset>
             <button type="submit" :disabled="processing">
                 {{ $t('common.bookNow') }}
             </button>

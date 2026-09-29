@@ -4,6 +4,7 @@ namespace App\Http\Requests\Booking;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreBookingRequest extends FormRequest
 {
@@ -30,6 +31,9 @@ class StoreBookingRequest extends FormRequest
             'children' => ['sometimes', 'integer', 'min:0'],
             'infants' => ['sometimes', 'integer', 'min:0'],
             'total_guests' => ['sometimes', 'integer', 'min:1'],
+            'guest_name' => [Rule::requiredIf(fn () => $this->user() === null), 'nullable', 'string', 'max:255'],
+            'guest_email' => [Rule::requiredIf(fn () => $this->user() === null), 'nullable', 'email', 'max:255'],
+            'guest_phone' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

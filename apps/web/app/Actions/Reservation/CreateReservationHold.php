@@ -9,6 +9,7 @@ use App\Models\Cabin;
 use App\Models\Reservation;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class CreateReservationHold
@@ -63,9 +64,13 @@ class CreateReservationHold
                     $now = now();
 
                     return Reservation::create([
-                        'user_id' => $input['user_id'],
+                        'user_id' => $input['user_id'] ?? null,
                         'cabin_id' => $cabinId,
                         'booking_code' => self::generateCode(),
+                        'guest_name' => $input['guest_name'] ?? null,
+                        'guest_email' => $input['guest_email'] ?? null,
+                        'guest_phone' => $input['guest_phone'] ?? null,
+                        'public_token' => self::generateToken(),
                         'locale' => $input['locale'] ?? 'id',
                         'source' => $input['source'] ?? ReservationSource::DirectWebsite,
                         'status' => ReservationStatus::PendingPayment,
@@ -93,6 +98,11 @@ class CreateReservationHold
         }
 
         throw $lastError ?? ValidationException::withMessages(['booking_code' => 'Could not generate a unique booking code.']);
+    }
+
+    private static function generateToken(): string
+    {
+        return Str::random(32);
     }
 
     private static function generateCode(): string

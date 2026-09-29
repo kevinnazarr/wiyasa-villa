@@ -13,7 +13,6 @@ Route::prefix('{locale?}')->whereIn('locale', ['id', 'en'])->group(function () {
     Route::get('cabins/{cabin}', [CabinController::class, 'show'])->name('cabins.show');
     Route::get('booking', [BookingController::class, 'index'])->name('booking.index');
     Route::post('booking', [BookingController::class, 'store'])
-        ->middleware('auth')
         ->name('booking.store');
     Route::get('booking/confirmation', [BookingController::class, 'confirmation'])->name('booking.confirmation');
     Route::inertia('about', 'public/about/index')->name('about');

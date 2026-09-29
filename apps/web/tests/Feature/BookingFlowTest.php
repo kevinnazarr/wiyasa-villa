@@ -62,9 +62,9 @@ test('booking post creates pending hold via engine', function () {
     expect($reservation->status->value)->toBe('PENDING_PAYMENT')
         ->and($reservation->user_id)->toBe($user->id);
 
-    $response->assertRedirectToRoute('booking.confirmation', ['code' => $reservation->booking_code]);
+    $response->assertRedirectToRoute('booking.confirmation', ['token' => $reservation->public_token]);
 
-    $this->actingAs($user)->get("/id/booking/confirmation?code={$reservation->booking_code}")
+    $this->actingAs($user)->get("/id/booking/confirmation?token={$reservation->public_token}")
         ->assertOk()
         ->assertInertia(fn ($page) => $page
             ->component('public/booking/confirmation')
@@ -121,8 +121,44 @@ test('booking detail is visible to owner only', function () {
     $this->actingAs($other)->get("/id/bookings/{$mine->id}")->assertNotFound();
 });
 
-test('guests are redirected to login for booking actions', function () {
+test('guests can create hold without login, bookings stay owner-scoped', function () {
+    $cabin = Cabin::factory()->create();
+
+    $response = $this->from('/id/booking')->post('/id/booking', array_merge(bookingPayload($cabin), [
+        'guest_name' => 'Tamu Villa',
+        'guest_email' => 'tamu@example.com',
+    ]));
+
+    $reservation = Reservation::query()->where('cabin_id', $cabin->id)->sole();
+
+    expect($reservation->user_id)->toBeNull()
+        ->and($reservation->guest_email)->toBe('tamu@example.com')
+        ->and($reservation->public_token)->not->toBeNull();
+
+    $response->assertRedirectToRoute('booking.confirmation', ['token' => $reservation->public_token]);
+});
+
+test('confirmation requires token, booking code is not enough', function () {
+    $user = User::factory()->create();
+    $cabin = Cabin::factory()->create();
+
+    $reservation = CreateReservationHold::run(array_merge(bookingPayload($cabin), ['user_id' => $user->id]));
+
+    $this->get("/id/booking/confirmation?code={$reservation->booking_code}")->assertOk()
+        ->assertInertia(fn ($page) => $page->where('reservation', null));
+
+    $this->get("/id/booking/confirmation?token={$reservation->public_token}")->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->where('reservation.code', $reservation->booking_code)
+            ->where('reservation.status', 'PENDING_PAYMENT')
+        );
+
+    $this->get('/id/booking/confirmation?token=wrong-token')->assertOk()
+        ->assertInertia(fn ($page) => $page->where('reservation', null));
+});
+
+test('guests are redirected to login for bookings index only', function () {
     $this->get('/id/bookings')->assertRedirect(route('login'));
     $this->get('/id/bookings/1')->assertRedirect(route('login'));
-    $this->post('/id/booking', [])->assertRedirect(route('login'));
+    $this->post('/id/booking', [])->assertSessionHasErrors();
 });
