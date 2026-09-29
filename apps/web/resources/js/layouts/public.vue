@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Footer from '@/components/public/footer/footer.vue';
-import Navbar from '@/components/public/navbar/navbar.vue';
+import Footer from '@/components/public/footer/index.vue';
+import Navbar from '@/components/public/navbar/index.vue';
 import { Toaster } from '@/components/ui/sonner';
 </script>
 
