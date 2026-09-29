@@ -25,7 +25,10 @@ defineProps<{
             v-else
             class="mt-6 rounded-lg border border-hairline bg-surface-card p-4"
         >
-            {{ reservation.code }}
+            <p>{{ reservation.code }}</p>
+            <p v-if="reservation.status" class="mt-2 text-body-sm text-body">
+                {{ reservation.status }}
+            </p>
         </div>
     </main>
 </template>

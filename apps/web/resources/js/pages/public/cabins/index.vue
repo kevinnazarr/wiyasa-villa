@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { isSupportedLocale } from '@/i18n';
+import { show as cabinShow } from '@/routes/cabins';
 
 type CabinSummary = {
     id: number | string;
@@ -9,6 +12,12 @@ type CabinSummary = {
 defineProps<{
     cabins?: CabinSummary[];
 }>();
+
+const page = usePage();
+
+const locale = computed(() =>
+    isSupportedLocale(page.props.locale) ? page.props.locale : 'id',
+);
 </script>
 
 <template>
@@ -30,7 +39,9 @@ defineProps<{
                 :key="cabin.id"
                 class="rounded-lg border border-hairline bg-surface-card p-4"
             >
-                {{ cabin.name }}
+                <Link :href="cabinShow({ locale, cabin: cabin.id })">
+                    {{ cabin.name }}
+                </Link>
             </li>
         </ul>
     </main>

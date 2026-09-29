@@ -1,8 +1,8 @@
 # Wiyasa Villa — Architecture Document
 
 **Version:** 1.1  
-**Status:** Final Baseline + i18n Update — target architecture (FUTURE vs actual HEAD 6011366)  
-**Actual State (HEAD 6011366):** Laravel 13 Inertia Vue monolith apps/web; locale /id /en via {locale?}; Fortify auth with locale-aware Bookings* responses; customer pages bookings/index, bookings/show, profile/index; no cabins/reservations domain code yet. Cabin/reservation/payment/voucher sections below are FUTURE.
+**Status:** Final Baseline + i18n Update — target architecture (FUTURE vs actual HEAD 453822e)
+**Actual State (HEAD 453822e):** Laravel 13 Inertia Vue monolith apps/web; locale /id /en via {locale?}; Fortify auth with locale-aware Bookings* responses; Cabin/CabinTranslation/Reservation domain + CreateReservationHold (lock→re-check) + CheckCabinAvailability + controller-backed booking flow implemented. Payment/voucher sections below are FUTURE.
 
 ## 1. Purpose
 

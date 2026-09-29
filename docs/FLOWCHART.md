@@ -2,8 +2,8 @@
 
 **Document:** Business & Technical Flowchart  
 **Version:** 1.1  
-**Status:** Final Baseline — flow target (FUTURE vs actual HEAD 6011366)  
-**Actual State (HEAD 6011366):** customer flow Login/Register/2FA/Verify → Bookings → Detail → Profile (no customer dashboard); locale-aware redirect /id/bookings or /en/bookings; reservation/payment/QR flows below are FUTURE, not yet wired.
+**Status:** Final Baseline — flow target (FUTURE vs actual HEAD 453822e)
+**Actual State (HEAD 453822e):** customer flow Browse Cabins → Booking (POST via engine) → Confirmation → Login/Register/2FA/Verify → Bookings → Detail → Profile (no customer dashboard); locale-aware redirect /id/bookings or /en/bookings; PG concurrency proven; payment/QR flows below are FUTURE, not yet wired.
 
 Dokumen ini menggambarkan alur customer, reservation concurrency, payment, cancellation, admin manual booking, pricing/voucher, check-in, dan locale/i18n.
 
